@@ -1,28 +1,10 @@
-// const mysql = require('mysql2');
+//https://zapier.com/blog/how-to-connect-database-mysql/
 
-// // First you need to create a connection to the database
-// // Be sure to replace 'user' and 'password' with the correct values
-// const con = mysql.createConnection({
-//   host: 'localhost',
-//   user: 'user',
-//   password: 'password',
-//   database: 'resources'
-// });
-
-// con.connect((err) => {
-//   if(err){
-//     console.log('Error connecting to Db');
-//     return;
-//   }
-//   console.log('Connection established');
-// });
-
-// con.end((err) => {
-//   // The connection is terminated gracefully
-//   // Ensures all remaining queries are executed
-//   // Then sends a quit packet to the MySQL server.
-// });
 const mysql = require('mysql2');
+const express = require('express');
+const application = express();
+const port = 3000;
+
 // create a new MySQL connection
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -32,11 +14,28 @@ const connection = mysql.createConnection({
 });
 // connect to the MySQL database
 connection.connect((error)=>{
-if(error){
-console.error('Error connecting to MySQL database:', error);
-}else{
-console.log('Connected to MySQL database!');
-}
+  if(error){
+    console.error('Error connecting to MySQL database:', error);
+  }else{
+    console.log('Connected to MySQL database!');
+  }
 });
+
+const newEmployee = {user_id : 1, user_name: 'employee1', pass_word: 'pass1'};
+connection.query('SELECT user_id, user_name, pass_word FROM username_password', function (err, result, fields) {
+  if (err) {
+  console.error('Error inserting data:', err);
+  return;
+  }
+  application.get('/', (req, res) => {
+    res.send(result)
+   })
+ });
+
+
+ application.listen(port, () => {
+  console.log('example app listening on port ${port}')
+ })
+
 // close the MySQL connection
 connection.end();
