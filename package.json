@@ -14,12 +14,28 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "css": "^3.0.0",
     "express": "^4.19.2",
     "mongodb": "^6.8.0",
     "mysql2": "^3.10.2",
     "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.24.1",
+    "react-scripts": "5.0.1",
     "safe-buffer": "^5.2.1",
     "web-vitals": "^4.2.1",
     "webpack": "^5.92.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

@@ -37,5 +37,6 @@ connection.query('SELECT user_id, user_name, pass_word FROM username_password', 
   console.log('example app listening on port ${port}')
  })
 
+ 
 // close the MySQL connection
 connection.end();
