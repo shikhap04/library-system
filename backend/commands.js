@@ -18,12 +18,12 @@ const getEmployees = async() => {
 
 
 // Returns an array of resources
-const getResources = async() => {
+const getAllResources = async() => {
   const command = 'SELECT * FROM resources;';
     
     const result = await Database.query(command);
     if (result.length == 0) {
-      console.log('No user found');
+      console.log('No resources');
       return false;
     }
     const resources = result;
@@ -33,8 +33,22 @@ const getResources = async() => {
     return resources;
 };
 
+const getResource = async(value) => {
+  const command = `SELECT * FROM resources WHERE resource_name = '${value}';`;
+
+  const result = await Database.query(command);
+  if (result.length == 0) {
+    console.log('No Resources Here');
+    return false;
+  }
+  const resources = result;
+  console.log(resources)
+  return resources;
+}
+
 
 module.exports = {
-  getResources,
+  getAllResources,
+  getResource,
   getEmployees
 };

@@ -5,6 +5,7 @@ import Catalog from './Catalog';
 import NavBar from './NavBar';
 import UserAccount from './UserAccount';
 import BookDetails from './BookDetails';
+import SearchPage from './Search';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/book/:id" element={<BookDetails />} />
           <Route path="/account" element={<UserAccount />} />
+          <Route path="/search" element={<SearchPage />} />
         </Routes>
       </div>
     </Router>

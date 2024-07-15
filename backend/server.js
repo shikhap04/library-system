@@ -21,12 +21,35 @@ app.get('/api/employees', async (req, res) => {
 
 app.get('/api/resources', async (req, res) => {
   try {
-    const resources = await commands.getResources();
+    const resources = await commands.getAllResources();
     res.json(resources);
     //console.log('Resources: ', resources);
     //console.log('trying to fetch resources')
   } catch (error) {
     console.log('issues with sending');
+    res.status(500).json({ error: 'Failed to fetch resources' });
+  }
+});
+
+// app.get('/api/search', async (req, res) => {
+//   try {
+//     const resource = await commands.getResource();
+//     res.json(resource);
+//   }
+//   catch (error) {
+//     console.log('issues with sending searched');
+//     res.status(500).json({error: 'failed to fetch searched resources'});
+//   }
+// });
+
+app.post('/api/search', async (req, res) => {
+  try {
+    const {query} = req.body;
+    const filteredResources = await commands.getResource(query);
+    res.json(filteredResources);
+  }
+  catch (error) {
+    console.log(error);
     res.status(500).json({ error: 'Failed to fetch resources' });
   }
 });

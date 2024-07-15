@@ -7,7 +7,7 @@ const Catalog = () => {
   const [resources, setresources] = useState([]);
   const [error, setError] = useState(null);
   
-  console.log("its here!!");
+  //console.log("its here!!");
   useEffect(() => {
     const fetchResources = async () => {
       try {
@@ -30,7 +30,6 @@ const Catalog = () => {
   return (
     <div>
       <h1>Catalog</h1>
-      <input placeholder="Search resources" />
       {Array.isArray(resources) && resources.length > 0 ? (
         resources.map(resource => (
           <div key={resource.resource_id} className="card">
