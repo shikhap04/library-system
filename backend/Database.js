@@ -3,18 +3,14 @@ const config = require('./config');
 
 class Database {
   static pool = undefined;
-  /**
-   * Creates a pool only if it does not already exist
-   */
+  //Creates a pool only if it does not already exist
   static createPool() {
     if (this.pool === undefined) {
       this.pool = mysql.createPool(config);
     }
   }
 
-  /**
-   * Simple query into the database that returns a Promise
-   */
+  // Simple query into the database that returns a Promise
   static async query(command) {
     this.createPool();
     return new Promise((resolve, reject) => {
@@ -30,9 +26,7 @@ class Database {
     });
   }
 
-  /**
-   * Creates a SQL condition statement with a variable number of *optional* arguments
-   */
+  // Creates a SQL condition statement with a variable number of *optional* arguments
   static createConditionStatement(table, args_json) {
     const args = JSON.parse(args_json);
     const params = [];
@@ -46,9 +40,7 @@ class Database {
     return condition;
   }
 
-  /**
-   * Creates a SQL update statement with a variable number of *optional* arguments
-   */
+  // Creates a SQL update statement with a variable number of *optional* argument
   static createUpdateStatement(args_json) {
     const args = JSON.parse(args_json);
     const params = [];

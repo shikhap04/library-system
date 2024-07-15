@@ -23,8 +23,8 @@ app.get('/api/resources', async (req, res) => {
   try {
     const resources = await commands.getResources();
     res.json(resources);
-    console.log('Resources: ', resources);
-    console.log('trying to fetch resources')
+    //console.log('Resources: ', resources);
+    //console.log('trying to fetch resources')
   } catch (error) {
     console.log('issues with sending');
     res.status(500).json({ error: 'Failed to fetch resources' });
