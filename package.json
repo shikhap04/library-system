@@ -5,15 +5,18 @@
   "main": "index.js",
   "scripts": {
     "start": "react-scripts start",
-    "start:server": "cd backend && npm start",
-    "dev": "concurrently \"npm run start:server\" \"npm run start\"",
+    "server": "cd backend && node server.js",
+    "dev": "concurrently \"npm run server\" \"npm run start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://localhost:3001",
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.2",
+    "cors": "^2.8.5",
     "css": "^3.0.0",
     "express": "^4.19.2",
     "mongodb": "^6.8.0",
@@ -39,6 +42,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "concurrently": "^8.2.2"
   }
 }
