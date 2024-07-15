@@ -18,9 +18,12 @@ const SearchCatalog = () => {
     }
   };
 
+  var buttonPressed = false;
+
   return (
     <div>
-      <h1>Search Catalog</h1>
+      <h1>Search</h1>
+      <p>Easy way to look up information about your upcoming book!</p>
       <form onSubmit={handleSearch}>
         <input
           type="text"

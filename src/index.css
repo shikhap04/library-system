@@ -3,20 +3,20 @@ body {
     color:black;
     margin: 0;
     padding: 10;
-    background-color: #ffffff;
+    background-color: #f2eade;
     text-align: center;
   }
   
   .navbar {
-    background-color: #042f4c;
+    background-color: #124E66;
     padding: 10px;
     color: white;
-    text-align: center;
+    text-align: left;
   }
   
   .navbar a {
     color: white;
-    margin: 0 15px;
+    margin: 0 10px;
     text-decoration: none;
   }
   
@@ -25,9 +25,9 @@ body {
   }
   
   .card {
-    background-color: white;
-    padding: 15px;
-    margin: 10px;
+    background-color: #D3D9D4;
+    padding: 5px;
+    margin: 10px 175px 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
