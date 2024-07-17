@@ -9,6 +9,9 @@ const SearchCatalog = () => {
   const [error, setError] = useState(null);
   const [searched, setSearched] = useState(false);
 
+  /** 
+   * Handles search with API and checks that query is not empty and catches other errors
+  */
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!query) {
