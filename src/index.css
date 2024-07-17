@@ -31,4 +31,32 @@ body {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
+
+  .inputSearch {
+    font-family: Arial, sans-serif;
+    font-size: large;
+    color: black;
+    text-align: left;
+    height: 25px;
+    width: 300px;
+    position: relative;
+  }
+  
+  .inputDropDown {
+    font-family: Arial, sans-serif;
+    font-size: large;
+    color: black;
+    text-align: center;
+    height: 30px;
+    position: relative;
+  }
+
+  .inputSubmit {
+    font-family: Arial, sans-serif;
+    font-size: large;
+    color: black;
+    text-align: center;
+    height: 30px;
+    position: relative;
+  }
   
