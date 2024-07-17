@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
 
 const SearchCatalog = () => {
   const [query, setQuery] = useState('');
@@ -46,6 +47,7 @@ const SearchCatalog = () => {
             <p>Copies Available: {resource.copies_available}</p>
             <p>Version: {resource.resource_version}</p>
             <p>Type: {resource.resource_type}</p>
+            <Link to={`/resources/${resource.resource_id}`}>Details</Link>
           </div>
         ))
       ) : (

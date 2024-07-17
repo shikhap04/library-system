@@ -1,6 +1,7 @@
 
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
 
 const Catalog = () => {
   
@@ -42,6 +43,7 @@ const Catalog = () => {
             <p>Copies Available: {resource.copies_available}</p>
             <p>Version: {resource.resource_version}</p>
             <p>Type: {resource.resource_type}</p>
+            <Link to={`/resources/${resource.resource_id}`}>Details</Link>
           </div>
         ))
       ) : (
