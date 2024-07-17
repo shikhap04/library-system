@@ -1,0 +1,62 @@
+body {
+    font-family: Arial, sans-serif;
+    color:black;
+    margin: 0;
+    padding: 10;
+    background-color: #f2eade;
+    text-align: center;
+  }
+  
+  .navbar {
+    background-color: #124E66;
+    padding: 10px;
+    color: white;
+    text-align: left;
+  }
+  
+  .navbar a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+  }
+  
+  .container {
+    padding: 20px;
+  }
+  
+  .card {
+    background-color: #D3D9D4;
+    padding: 5px;
+    margin: 10px 175px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .inputSearch {
+    font-family: Arial, sans-serif;
+    font-size: large;
+    color: black;
+    text-align: left;
+    height: 25px;
+    width: 300px;
+    position: relative;
+  }
+  
+  .inputDropDown {
+    font-family: Arial, sans-serif;
+    font-size: large;
+    color: black;
+    text-align: center;
+    height: 30px;
+    position: relative;
+  }
+
+  .inputSubmit {
+    font-family: Arial, sans-serif;
+    font-size: large;
+    color: black;
+    text-align: center;
+    height: 30px;
+    position: relative;
+  }
+  
