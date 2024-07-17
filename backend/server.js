@@ -31,17 +31,6 @@ app.get('/api/resources', async (req, res) => {
   }
 });
 
-// app.get('/api/search', async (req, res) => {
-//   try {
-//     const resource = await commands.getResource();
-//     res.json(resource);
-//   }
-//   catch (error) {
-//     console.log('issues with sending searched');
-//     res.status(500).json({error: 'failed to fetch searched resources'});
-//   }
-// });
-
 app.post('/api/search', async (req, res) => {
   try {
     const {field, query} = req.body;
