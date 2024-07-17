@@ -1,57 +1,67 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
+import ResourceCard from './ResourceCard';
 
 const SearchCatalog = () => {
   const [query, setQuery] = useState('');
+  const [field, setField] = useState('resource_name');
   const [resources, setResources] = useState([]);
   const [error, setError] = useState(null);
+  const [searched, setSearched] = useState(false);
 
   const handleSearch = async (e) => {
     e.preventDefault();
+    if (!query) {
+      setError('Search bar cannot be empty. Please try again!');
+      setSearched(false);
+      return;
+    }
     try {
-      const response = await axios.post('http://localhost:3001/api/search', { query });
+      const response = await axios.post('http://localhost:3001/api/search', { field, query });
       setResources(response.data);
       setError(null);
     } catch (error) {
       setError(error.message);
       setResources([]);
+    } finally {
+      setSearched(true);
     }
   };
-
-  var buttonPressed = false;
 
   return (
     <div>
       <h1>Search</h1>
       <p>Easy way to look up information about your upcoming book!</p>
       <form onSubmit={handleSearch}>
+        <select 
+          value={field} 
+          onChange={(e) => setField(e.target.value)}
+          className = "inputDropDown">
+          <option value = "resource_name">Resource Title</option>
+          <option value = "author">Author</option>
+          <option value = "location">Location</option>
+          <option value = "genre">Genre</option>
+          <option value = "resource_type">Resource Type</option>
+        </select>
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search resources..."
-        />
-        <button type="submit">Search</button>
+          className = "inputSearch"/>
+        <button 
+          type="submit"
+          className = "inputSubmit">Search</button>
       </form>
-      {error && <div>Error: {error}</div>}
-      {Array.isArray(resources) && resources.length > 0 ? (
+
+      {error && <p style={{ color: 'red'}}>Error: {error}</p>}
+
+      {Array.isArray(resources) && resources.length > 0 && searched? (
         resources.map(resource => (
-          <div key={resource.resource_id} className="card">
-            <h3>{resource.resource_name}</h3>
-            <p>Author: {resource.author}</p>
-            <p>Location: {resource.location}</p>
-            <p>Description: {resource.resource_description}</p>
-            <p>Genre: {resource.genre}</p>
-            <p>Total Copies: {resource.total_copies}</p>
-            <p>Copies Available: {resource.copies_available}</p>
-            <p>Version: {resource.resource_version}</p>
-            <p>Type: {resource.resource_type}</p>
-            <Link to={`/resources/${resource.resource_id}`}>Details</Link>
-          </div>
+          <ResourceCard key={resource.resource_id} resource={resource} />
         ))
       ) : (
-        <p>No resources available</p>
+        searched && <p>No resources available matching description. Please try something else!</p>
       )}
     </div>
   );

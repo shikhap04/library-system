@@ -1,7 +1,7 @@
 
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
+import ResourceCard from './ResourceCard';
 
 const Catalog = () => {
   
@@ -33,18 +33,7 @@ const Catalog = () => {
       <h1>Catalog</h1>
       {Array.isArray(resources) && resources.length > 0 ? (
         resources.map(resource => (
-          <div key={resource.resource_id} className="card">
-            <h3>{resource.resource_name}</h3>
-            <p>Author: {resource.author}</p>
-            <p>Location: {resource.location}</p>
-            <p>Description: {resource.resource_description}</p>
-            <p>Genre: {resource.genre}</p>
-            <p>Total Copies: {resource.total_copies}</p>
-            <p>Copies Available: {resource.copies_available}</p>
-            <p>Version: {resource.resource_version}</p>
-            <p>Type: {resource.resource_type}</p>
-            <Link to={`/resources/${resource.resource_id}`}>Details</Link>
-          </div>
+          <ResourceCard key={resource.resource_id} resource={resource} />
         ))
       ) : (
         <p>No resources available</p>
