@@ -34,8 +34,9 @@ const SearchCatalog = () => {
       <p>Easy way to look up information about your upcoming book!</p>
       <form onSubmit={handleSearch}>
         <select 
-          value={field} 
-          onChange={(e) => setField(e.target.value)}
+          value={field}
+          onInput={(e) => setField(e.target.value)}
+          onChange={(e) => setQuery('')}
           className = "inputDropDown">
           <option value = "resource_name">Resource Title</option>
           <option value = "author">Author</option>
@@ -47,11 +48,14 @@ const SearchCatalog = () => {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search resources..."
+          placeholder={query === '' ? 'Search resources...' : ''}
+          onFocus={(e) => e.target.placeholder = ''}
+          onBlur={(e) => e.target.placeholder = 'Search resources...'}
           className = "inputSearch"/>
         <button 
           type="submit"
-          className = "inputSubmit">Search</button>
+          className = "inputSubmit"
+          onChange={(e) => setQuery('')}>Search</button>
       </form>
 
       {error && <p style={{ color: 'red'}}>Error: {error}</p>}
