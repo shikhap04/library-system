@@ -44,8 +44,8 @@ app.get('/api/resources', async (req, res) => {
 
 app.post('/api/search', async (req, res) => {
   try {
-    const {query} = req.body;
-    const filteredResources = await commands.getResource(query);
+    const {field, query} = req.body;
+    const filteredResources = await commands.getResource(field, query);
     res.json(filteredResources);
   }
   catch (error) {

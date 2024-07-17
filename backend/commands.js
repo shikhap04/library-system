@@ -33,8 +33,25 @@ const getAllResources = async() => {
     return resources;
 };
 
-const getResource = async(value) => {
-  const command = `SELECT * FROM resources WHERE resource_name = '${value}';`;
+const getResource = async(field, value) => {
+  var command = 'SELECT * FROM resources;'
+  switch (field) {
+    case ('resource_name'):
+      command = `SELECT * FROM resources WHERE resource_name = '${value}';`;
+      break;
+    case ('author'):
+      command = `SELECT * FROM resources WHERE author = '${value}';`;
+      break;
+    case ('location'):
+      command = `SELECT * FROM resources WHERE location = '${value}';`;
+      break;
+    case ('genre'):
+        command = `SELECT * FROM resources WHERE genre = '${value}';`;
+        break;
+    case ('resource_type'):
+          command = `SELECT * FROM resources WHERE resource_type = '${value}';`;
+          break;
+  }
 
   const result = await Database.query(command);
   if (result.length == 0) {
