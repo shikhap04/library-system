@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import ResourceCard from './ResourceCard';
+import './css/search.css';
 
 const SearchCatalog = () => {
   const [query, setQuery] = useState('');
