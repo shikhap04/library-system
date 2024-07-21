@@ -21,7 +21,7 @@ const SearchCatalog = () => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:3001/api/search', { field, query });
+      const response = await axios.post('http://localhost:3001/search/resources', { field, query });
       setResources(response.data);
       setError(null);
     } catch (error) {

@@ -1,6 +1,7 @@
-/** Returns an array of all resources in alphabetical order*/ 
-const Database = require('./Database')
 
+const Database = require('../Database')
+
+/** Returns an array of all resources in alphabetical order*/
 const getAllResources = async() => {
     const command = 'SELECT * FROM resources ORDER BY resource_name;';
       
@@ -9,11 +10,7 @@ const getAllResources = async() => {
         console.log('No resources');
         return false;
       }
-      const resources = result;
-      //console.log(resources);
-      // console.log('user:', user);
-      //return JSON.stringify(resources);
-      return resources;
+      return result;
   };
   
   /** Finds Resources by field and value
@@ -45,9 +42,7 @@ const getAllResources = async() => {
       console.log('No Resources Here');
       return false;
     }
-    const resources = result;
-    console.log(resources)
-    return resources;
+    return result;
   }
 
   module.exports = {

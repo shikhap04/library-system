@@ -1,8 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 
-const ResourceCommands = require('./ResourcesCMD');
-const EmployeeCommands = require('./EmployeeCMD');
+const ResourceCommands = require('./Command/ResourcesCommands');
+const EmployeeCommands = require('./Command/UserCommands');
+const AccountCommands = require('./Command/AccountCommands');
 
 const app = express();
 const port = 3001;
@@ -10,10 +11,11 @@ const port = 3001;
 app.use(cors());
 app.use(express.json());
 
-app.get('/api/employees', async (req, res) => {
+
+app.get('/employees/all', async (req, res) => {
   try {
-    const employees = await EmployeeCommands.getEmployees();
-    res.json(employees);
+    const AllEmployees = await EmployeeCommands.getAllUsers();
+    res.json(AllEmployees);
     console.log("trying to fetch employees")
   } catch (error) {
     console.log('ISSUE IN APP.GET')
@@ -21,10 +23,10 @@ app.get('/api/employees', async (req, res) => {
   }
 });
 
-app.get('/api/resources', async (req, res) => {
+app.get('/resources/all', async (req, res) => {
   try {
-    const resources = await ResourceCommands.getAllResources();
-    res.json(resources);
+    const AllResources = await ResourceCommands.getAllResources();
+    res.json(AllResources);
     //console.log('Resources: ', resources);
     //console.log('trying to fetch resources')
   } catch (error) {
@@ -33,9 +35,9 @@ app.get('/api/resources', async (req, res) => {
   }
 });
 
-app.post('/api/search', async (req, res) => {
+app.post('/search/resources', async (req, res) => {
+  const {field, query} = req.body;
   try {
-    const {field, query} = req.body;
     const filteredResources = await ResourceCommands.getResource(field, query);
     res.json(filteredResources);
   }
@@ -44,6 +46,18 @@ app.post('/api/search', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch resources' });
   }
 });
+
+app.post('/login/validate', async (req, res) => {
+  const {username, password} = req.body;
+  try {
+    const validAccount = await AccountCommands.validateAccount(username, password);
+    res.json(validAccount);
+  }
+  catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Failed to login' });
+  }
+})
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
