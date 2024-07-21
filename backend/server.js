@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const commands = require('./commands');
+
+const ResourceCommands = require('./ResourcesCMD');
+const EmployeeCommands = require('./EmployeeCMD');
 
 const app = express();
 const port = 3001;
@@ -10,7 +12,7 @@ app.use(express.json());
 
 app.get('/api/employees', async (req, res) => {
   try {
-    const employees = await commands.getEmployees();
+    const employees = await EmployeeCommands.getEmployees();
     res.json(employees);
     console.log("trying to fetch employees")
   } catch (error) {
@@ -21,7 +23,7 @@ app.get('/api/employees', async (req, res) => {
 
 app.get('/api/resources', async (req, res) => {
   try {
-    const resources = await commands.getAllResources();
+    const resources = await ResourceCommands.getAllResources();
     res.json(resources);
     //console.log('Resources: ', resources);
     //console.log('trying to fetch resources')
@@ -34,7 +36,7 @@ app.get('/api/resources', async (req, res) => {
 app.post('/api/search', async (req, res) => {
   try {
     const {field, query} = req.body;
-    const filteredResources = await commands.getResource(field, query);
+    const filteredResources = await ResourceCommands.getResource(field, query);
     res.json(filteredResources);
   }
   catch (error) {
