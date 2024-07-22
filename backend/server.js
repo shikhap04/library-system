@@ -52,6 +52,7 @@ app.post('/login/validate', async (req, res) => {
   try {
     const validAccount = await AccountCommands.validateAccount(username, password);
     if (validAccount) {
+      console.log(validAccount)
       res.status(200).json(validAccount);
       console.log('success message sent in server!')
     } else {

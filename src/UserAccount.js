@@ -3,7 +3,7 @@ import React from 'react';
 const UserAccount = () => {
   // Dummy data for user
   const user = {
-    name: 'John Doe',
+    name: sessionStorage.getItem('username'),
     borrowedBooks: [
       { id: 1, title: 'Book 1', dueDate: '2024-07-10' },
       { id: 2, title: 'Book 2', dueDate: '2024-07-15' },

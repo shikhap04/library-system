@@ -11,6 +11,10 @@
     text-decoration: none;
 }
 
+.logout {
+  text-align: right;
+}
+
   /* .container {
     padding: 20px;
   } */
