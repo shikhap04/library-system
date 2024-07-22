@@ -62,7 +62,7 @@ const LogIn = () => {
         </form>
         {error && <p style={{ color: 'red'}}>Error: {error}</p>}
         <div>
-            <Link to="/newAccount">Create a new Account here!</Link>
+            <Link to="/createAccount">Create a new Account here!</Link>
         </div>
     </div>
   );

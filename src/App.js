@@ -9,7 +9,7 @@ import UserAccount from './UserAccount';
 import BookDetails from './BookDetails';
 import SearchPage from './Search';
 import LogIn from './LogIn';
-import newAccount from './newAccount';
+import CreateAccount from './CreateAccount';
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
           <Route path="/account" element={<UserAccount />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/logIn" element={<LogIn/>} />
-          <Route path="/newAcount" element={<newAccount />} />
+          <Route path="/createAccount" element={<CreateAccount />} />
         </Routes>
       </div>
     </Router>

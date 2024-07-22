@@ -67,13 +67,13 @@ app.post('/login/validate', async (req, res) => {
 })
 
 
-app.post('/login/newAccount', async (req, res) => {
+app.post('/login/createAccount', async (req, res) => {
   const {username, password, accountLevel} = req.body;
   try {
-    const accountAdded = await AccountCommands.createAccount(username, password, accountLevel);
+    const accountAdded = await AccountCommands.createAccount( username, password, accountLevel);
     if (accountAdded) {
-      console.log(accountAdded)
-      res.status(200)
+      //console.log(accountAdded)
+      res.sendStatus(200);
       console.log('success new account sent in server!')
     } else {
       res.status(401).json({error: 'failed to create account'});
