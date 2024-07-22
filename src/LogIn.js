@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import './css/LogIn.css';
-import { useNavigate } from 'react-router-dom';
+import './css/logIn.css';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LogIn = () => {
   const navigate = useNavigate();
@@ -25,12 +25,12 @@ const LogIn = () => {
             // Store user details in session storage
             sessionStorage.setItem('loggedIn', 'true');
             sessionStorage.setItem('id', user.user_id);
-            sessionStorage.setItem('level', user.account_level);
+            sessionStorage.setItem('accountLevel', user.accountLevel);
             sessionStorage.setItem('username', user.user_name);
     
             // Verify that the session storage is set correctly
             console.log('User_id in login:', user.user_id);
-            console.log('Account_Level in login:', user.account_level);
+            console.log('accountLevel in login:', user.accountLevel);
             console.log('Username in login:', user.user_name);
             console.log('Type of username:', typeof(user.user_name));
     
@@ -61,6 +61,9 @@ const LogIn = () => {
             <button type="submit">Log in</button>
         </form>
         {error && <p style={{ color: 'red'}}>Error: {error}</p>}
+        <div>
+            <Link to="/newAccount">Create a new Account here!</Link>
+        </div>
     </div>
   );
 }

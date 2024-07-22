@@ -25,7 +25,7 @@ const NavBar = () => {
           className="logout"> Log Out </button>
         </>
       ) : (
-        <Link to="/login">Log in</Link>
+        <Link to="/login">Log In</Link>
       )
       }
     </div>

@@ -12,9 +12,12 @@
 }
 
 .logout {
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  outline: auto;
   text-align: right;
 }
 
-  /* .container {
+.container {
     padding: 20px;
-  } */
+  }

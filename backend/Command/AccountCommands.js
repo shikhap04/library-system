@@ -1,4 +1,5 @@
-const Database = require('../Database')
+const Database = require('../Database');
+const { v4: uuid } = require('uuid');
 
 // JUST LOGGING IN AND ADDING AN ACCOUNT
 
@@ -18,7 +19,21 @@ const validateAccount = async(username, password) => {
     }
   };
 
+const createAccount = async(username, password, accountLevel) => {
+    /*if (validateAccount()) {
+        return JSON.status(409)
+    }
+        */
+    const user_id = uuid();
+    const command = `INSERT INTO accounts VALUE(${user_id}, ${username}, ${password}, ${accountLevel});`;
+
+    const result = await Database.query(command);
+    console.log(result);
+    return result;
+}
+
 
 module.exports = {
     validateAccount,
+    createAccount,
 }

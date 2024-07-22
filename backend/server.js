@@ -54,15 +54,35 @@ app.post('/login/validate', async (req, res) => {
     if (validAccount) {
       console.log(validAccount)
       res.status(200).json(validAccount);
-      console.log('success message sent in server!')
+      console.log('success log in sent in server!')
     } else {
       res.status(401).json({error: 'Wrong username or password! in server'});
-      console.log('incorrect message in server!')
+      console.log('incorrect log in in server!')
     }
   }
   catch (error) {
     console.log('error in server', error);
     res.status(500).json({ error: 'Failed to login. Check server' });
+  }
+})
+
+
+app.post('/login/newAccount', async (req, res) => {
+  const {username, password, accountLevel} = req.body;
+  try {
+    const accountAdded = await AccountCommands.createAccount(username, password, accountLevel);
+    if (accountAdded) {
+      console.log(accountAdded)
+      res.status(200)
+      console.log('success new account sent in server!')
+    } else {
+      res.status(401).json({error: 'failed to create account'});
+      console.log('incorrect new account in server!')
+    }
+  }
+  catch (error) {
+    console.log('error in server:', error);
+    res.status(500).json({ error: 'Failed to create account. Check server' });
   }
 })
 
@@ -101,7 +121,7 @@ app.listen(port, () => {
 // });
 
 // const newEmployee = {user_id : 1, user_name: 'employee1', pass_word: 'pass1'};
-// connection.query('SELECT user_id, user_name, pass_word account_level FROM username_password', function (err, result, fields) {
+// connection.query('SELECT user_id, user_name, pass_word accountLevel FROM username_password', function (err, result, fields) {
 //   if (err) {
 //   console.error('Error inserting data:', err);
 //   return;
