@@ -6,6 +6,7 @@ import NavBar from './NavBar';
 import UserAccount from './UserAccount';
 import BookDetails from './BookDetails';
 import SearchPage from './Search';
+import LogIn from './LogIn';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/book/:id" element={<BookDetails />} />
           <Route path="/account" element={<UserAccount />} />
           <Route path="/search" element={<SearchPage />} />
+          <Route path="/login" element={<LogIn/>} />
         </Routes>
       </div>
     </Router>

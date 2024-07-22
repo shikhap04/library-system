@@ -26,7 +26,7 @@ app.get('/employees/all', async (req, res) => {
 app.get('/resources/all', async (req, res) => {
   try {
     const AllResources = await ResourceCommands.getAllResources();
-    res.json(AllResources);
+    res.status(200).json(AllResources);
     //console.log('Resources: ', resources);
     //console.log('trying to fetch resources')
   } catch (error) {
@@ -39,7 +39,7 @@ app.post('/search/resources', async (req, res) => {
   const {field, query} = req.body;
   try {
     const filteredResources = await ResourceCommands.getResource(field, query);
-    res.json(filteredResources);
+    res.status(201).json(filteredResources);
   }
   catch (error) {
     console.log(error);
@@ -51,11 +51,17 @@ app.post('/login/validate', async (req, res) => {
   const {username, password} = req.body;
   try {
     const validAccount = await AccountCommands.validateAccount(username, password);
-    res.json(validAccount);
+    if (validAccount) {
+      res.status(200).json(validAccount);
+      console.log('success message sent in server!')
+    } else {
+      res.status(401).json({error: 'Wrong username or password! in server'});
+      console.log('incorrect message in server!')
+    }
   }
   catch (error) {
-    console.log(error);
-    res.status(500).json({ error: 'Failed to login' });
+    console.log('error in server', error);
+    res.status(500).json({ error: 'Failed to login. Check server' });
   }
 })
 
