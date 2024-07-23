@@ -20,10 +20,9 @@ const validateAccount = async(username, password) => {
   };
 
 const createAccount = async(username, password, accountLevel) => {
-    // /*if (validateAccount()) {
-    //     return JSON.status(409)
-    // }
-    //     */
+    if (validateAccount()) {
+        return JSON.sendStatus(409);
+    }
     console.log('reached account commands');
     const user_id = uuid();
     const command = `INSERT INTO accounts (user_id, user_name, pass_word, accountLevel) VALUES('${user_id}', '${username}', '${password}', '${accountLevel}');`;

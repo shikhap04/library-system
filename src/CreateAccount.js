@@ -25,7 +25,7 @@ const CreateAccount = () => {
         } else {
             console.log('Username taken in:', username);
             console.log('Password taken in:', password);
-            setError('Incorrect username and password in new account HERE!')
+            setError('Username and Password already exists')
         }
     } catch (error) {
         setError(error);

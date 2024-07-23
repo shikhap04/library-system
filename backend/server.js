@@ -76,7 +76,7 @@ app.post('/login/createAccount', async (req, res) => {
       res.sendStatus(200);
       console.log('success new account sent in server!')
     } else {
-      res.status(401).json({error: 'failed to create account'});
+      res.status(409).json({error: 'failed to create account'});
       console.log('incorrect new account in server!')
     }
   }
