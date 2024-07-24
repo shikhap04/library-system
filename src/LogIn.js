@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const LogIn = () => {
   const navigate = useNavigate();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -47,6 +48,7 @@ const LogIn = () => {
 
   return (
     <div>
+        {sessionStorage.getItem('loggedIn') && navigate('/account')}
         <h1>Log In</h1>
         <form onSubmit={handleLogIn}>
             <div>
