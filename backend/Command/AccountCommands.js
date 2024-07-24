@@ -26,7 +26,7 @@ const validateAccount = async(username, password) => {
                     WHERE accounts.user_name = '${username}';`
       
     const result = await Database.query(command);
-    if (result.length >= 0) {
+    if (result.length > 0) {
         const user = result[0];
         console.log('user in commands:', user.pass_word);
         console.log('type of', typeof(user.pass_word));

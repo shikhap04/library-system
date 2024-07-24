@@ -33,7 +33,7 @@ const LogIn = () => {
             console.log('Username in login:', user.user_name);
             console.log('Type of username:', typeof(user.user_name));
     
-            navigate('/account');
+            navigate('/');
         } else {
             console.log('User taken in:', username);
             console.log('Password taken in:', password);
