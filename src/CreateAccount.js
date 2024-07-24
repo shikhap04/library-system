@@ -28,8 +28,8 @@ const CreateAccount = () => {
             setError('Username and Password already exists')
         }
     } catch (error) {
-        setError(error);
-        console.log('ERROR in create acc');
+        setError('Account already exists, try another username!');
+        console.log('ERROR in create acc', error);
     }
   }
 

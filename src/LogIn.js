@@ -19,8 +19,7 @@ const LogIn = () => {
         const response = await axios.post('http://localhost:3001/login/validate', { username, password });
         if (response.status === 200) {
             const user = JSON.parse(response.data)
-            console.log('Log in Successful');
-            console.log(user);
+            console.log('Log in Successful for', user);
             
             // Store user details in session storage
             sessionStorage.setItem('loggedIn', 'true');

@@ -73,14 +73,13 @@ app.post('/login/createAccount', async (req, res) => {
     const accountAdded = await AccountCommands.createAccount( username, password, accountLevel);
     if (accountAdded) {
       //console.log(accountAdded)
-      res.sendStatus(200);
+      res.status(200).json({accountAdded});
       console.log('success new account sent in server!')
     } else {
-      res.status(409).json({error: 'failed to create account'});
+      res.status(409).json({error: 'failed to create account. user with same username already exists'});
       console.log('incorrect new account in server!')
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.log('error in server:', error);
     res.status(500).json({ error: 'Failed to create account. Check server' });
   }
