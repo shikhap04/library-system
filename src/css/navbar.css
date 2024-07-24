@@ -1,0 +1,23 @@
+.navbar {
+    background-color: #124E66;
+    padding: 10px;
+    color: white;
+    text-align: left;
+}
+  
+.navbar a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.logout {
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  outline: auto;
+  text-align: right;
+}
+
+.container {
+    padding: 20px;
+  }

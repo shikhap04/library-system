@@ -12,7 +12,7 @@ const Catalog = () => {
   useEffect(() => {
     const fetchResources = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/resources');
+        const response = await axios.get('http://localhost:3001/resources/all');
         //console.log('AXIOS', response);
         setresources(response.data);
       }

@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
-const commands = require('./commands');
+
+const ResourceCommands = require('./Command/ResourcesCommands');
+const EmployeeCommands = require('./Command/UserCommands');
+const AccountCommands = require('./Command/AccountCommands');
 
 const app = express();
 const port = 3001;
@@ -8,10 +11,11 @@ const port = 3001;
 app.use(cors());
 app.use(express.json());
 
-app.get('/api/employees', async (req, res) => {
+
+app.get('/employees/all', async (req, res) => {
   try {
-    const employees = await commands.getEmployees();
-    res.json(employees);
+    const AllEmployees = await EmployeeCommands.getAllUsers();
+    res.json(AllEmployees);
     console.log("trying to fetch employees")
   } catch (error) {
     console.log('ISSUE IN APP.GET')
@@ -19,10 +23,10 @@ app.get('/api/employees', async (req, res) => {
   }
 });
 
-app.get('/api/resources', async (req, res) => {
+app.get('/resources/all', async (req, res) => {
   try {
-    const resources = await commands.getAllResources();
-    res.json(resources);
+    const AllResources = await ResourceCommands.getAllResources();
+    res.status(200).json(AllResources);
     //console.log('Resources: ', resources);
     //console.log('trying to fetch resources')
   } catch (error) {
@@ -31,28 +35,55 @@ app.get('/api/resources', async (req, res) => {
   }
 });
 
-// app.get('/api/search', async (req, res) => {
-//   try {
-//     const resource = await commands.getResource();
-//     res.json(resource);
-//   }
-//   catch (error) {
-//     console.log('issues with sending searched');
-//     res.status(500).json({error: 'failed to fetch searched resources'});
-//   }
-// });
-
-app.post('/api/search', async (req, res) => {
+app.post('/search/resources', async (req, res) => {
+  const {field, query} = req.body;
   try {
-    const {field, query} = req.body;
-    const filteredResources = await commands.getResource(field, query);
-    res.json(filteredResources);
+    const filteredResources = await ResourceCommands.getResource(field, query);
+    res.status(201).json(filteredResources);
   }
   catch (error) {
     console.log(error);
     res.status(500).json({ error: 'Failed to fetch resources' });
   }
 });
+
+app.post('/login/validate', async (req, res) => {
+  const {username, password} = req.body;
+  try {
+    const validAccount = await AccountCommands.validateAccount(username, password);
+    if (validAccount) {
+      console.log(validAccount)
+      res.status(200).json(validAccount);
+      console.log('success log in sent in server!')
+    } else {
+      res.status(401).json({error: 'Wrong username or password! in server'});
+      console.log('incorrect log in in server!')
+    }
+  }
+  catch (error) {
+    console.log('error in server', error);
+    res.status(500).json({ error: 'Failed to login. Check server' });
+  }
+})
+
+
+app.post('/login/createAccount', async (req, res) => {
+  const {username, password, accountLevel} = req.body;
+  try {
+    const accountAdded = await AccountCommands.createAccount( username, password, accountLevel);
+    if (accountAdded) {
+      //console.log(accountAdded)
+      res.status(200).json({accountAdded});
+      console.log('success new account sent in server!')
+    } else {
+      res.status(409).json({error: 'failed to create account. user with same username already exists'});
+      console.log('incorrect new account in server!')
+    }
+  } catch (error) {
+    console.log('error in server:', error);
+    res.status(500).json({ error: 'Failed to create account. Check server' });
+  }
+})
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
@@ -89,7 +120,7 @@ app.listen(port, () => {
 // });
 
 // const newEmployee = {user_id : 1, user_name: 'employee1', pass_word: 'pass1'};
-// connection.query('SELECT user_id, user_name, pass_word account_level FROM username_password', function (err, result, fields) {
+// connection.query('SELECT user_id, user_name, pass_word accountLevel FROM username_password', function (err, result, fields) {
 //   if (err) {
 //   console.error('Error inserting data:', err);
 //   return;

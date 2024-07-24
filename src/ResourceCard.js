@@ -1,7 +1,9 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
+import './css/card.css'
 
 const ResourceCard = ({resource}) => {
+    const loggedIn = sessionStorage.getItem('loggedIn')
     return (
         <div key={resource.resource_id} className="card">
             <h3>{resource.resource_name}</h3>
@@ -13,7 +15,7 @@ const ResourceCard = ({resource}) => {
             <p>Copies Available: {resource.copies_available}</p>
             <p>Version: {resource.resource_version}</p>
             <p>Type: {resource.resource_type}</p>
-            <Link to={`/resources/${resource.resource_id}`}>Details</Link>
+            {loggedIn && <Link to={`/resources/${resource.resource_id}`}>Check Out Details</Link>}
           </div>
     )
 }

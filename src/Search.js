@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import ResourceCard from './ResourceCard';
+import './css/search.css';
 
 const SearchCatalog = () => {
   const [query, setQuery] = useState('');
@@ -9,6 +10,9 @@ const SearchCatalog = () => {
   const [error, setError] = useState(null);
   const [searched, setSearched] = useState(false);
 
+  /** 
+   * Handles search with API and checks that query is not empty and catches other errors
+  */
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!query) {
@@ -17,7 +21,7 @@ const SearchCatalog = () => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:3001/api/search', { field, query });
+      const response = await axios.post('http://localhost:3001/search/resources', { field, query });
       setResources(response.data);
       setError(null);
     } catch (error) {
@@ -34,8 +38,9 @@ const SearchCatalog = () => {
       <p>Easy way to look up information about your upcoming book!</p>
       <form onSubmit={handleSearch}>
         <select 
-          value={field} 
-          onChange={(e) => setField(e.target.value)}
+          value={field}
+          onInput={(e) => setField(e.target.value)}
+          onChange={(e) => setQuery('')}
           className = "inputDropDown">
           <option value = "resource_name">Resource Title</option>
           <option value = "author">Author</option>
@@ -47,11 +52,14 @@ const SearchCatalog = () => {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search resources..."
+          placeholder={query === '' ? 'Search resources...' : ''}
+          onFocus={(e) => e.target.placeholder = ''}
+          onBlur={(e) => e.target.placeholder = 'Search resources...'}
           className = "inputSearch"/>
         <button 
           type="submit"
-          className = "inputSubmit">Search</button>
+          className = "inputSubmit"
+          onChange={(e) => setQuery('')}>Search</button>
       </form>
 
       {error && <p style={{ color: 'red'}}>Error: {error}</p>}
