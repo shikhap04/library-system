@@ -48,6 +48,7 @@ const getResource = async(field, value) => {
     return result;
   };
 
+
 const updateResource = async(resourceID, updatedInfo) => {
   argsJson = JSON.stringify(updatedInfo)
   const update = Database.createUpdateStatement(argsJson);
@@ -60,13 +61,26 @@ const updateResource = async(resourceID, updatedInfo) => {
     const result = await Database.query(command);
     return result;
   } catch (error) {
-    console.log('issue in resource server', error);
+    console.log('issue in resource commands', error);
     return null;
   }
 };
+
+const deleteResource = async(resourceID) => {
+  const command = `DELETE FROM resources WHERE resource_id = ${resourceID};`;
+  try {
+    const result = await Database.query(command);
+    console.log(result);
+    return result;
+  } catch (error) {
+    console.log('issue in resource commands ', error);
+    return null;
+  }
+}
 
   module.exports = {
     getAllResources,
     getResource,
     updateResource,
+    deleteResource,
   };

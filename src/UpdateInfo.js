@@ -59,6 +59,22 @@ const UpdateInfo = () => {
     }
   };
 
+  const handleDeleteResource = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.delete(`/resources/delete/${resource_id}`, resource);
+      if (response.status === 200) {
+        console.log('deleted resource')
+        navigate('/search'); 
+      } else {
+        setError('Failed to update resource');
+      }
+    } catch (error) {
+      console.error('Error deleting resource:', error);
+      setError('Failed to delete resource');
+    }
+  }
+
   return (
     <div>
       <h1>Update Resource {resource.resource_name}</h1>
@@ -104,6 +120,7 @@ const UpdateInfo = () => {
         <button type="submit">Update Resource</button>
         {error && <p style={{ color: 'red' }}>{error}</p>}
       </form>
+        <button type="submit" onClick={handleDeleteResource}>Delete this resource</button>
     </div>
   );
 };

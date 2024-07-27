@@ -69,6 +69,21 @@ app.put('/resources/update/:resource_id', async (req, res) => {
   }
 });
 
+app.delete('/resources/delete/:resource_id', async (req, res) => {
+  const { resource_id } = req.params;
+  console.log('id:', resource_id, typeof(resource_id));
+  try {
+    const deletedResource = await ResourceCommands.deleteResource(resource_id);
+    if (deletedResource) {
+      res.sendStatus(200);
+    } else {
+      res.status(401).json({error: 'failed in try of server'});
+    }
+  } catch (error) {
+    console.log('error in server', error);
+    res.status(500).json({error: 'error in server'})
+  }
+});
 
 
 
