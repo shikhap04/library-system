@@ -33,12 +33,12 @@ const CreateResource = () => {
   };
 
   const handleAddingResource = async (e) => {
-    if(!validateFields) {
+    e.preventDefault();
+    if(!validateFields()) {
         setError('Please fill out all fields');
         setSuccess(null);
         return;
     }
-    e.preventDefault();
     try {
       const response = await axios.post('/resources/add', resource);
       if (response.status === 201) {
@@ -63,39 +63,39 @@ const CreateResource = () => {
         <div>
           <p>
             Name:
-            <input type="text" name="resource_name" value={resource.resource_name} onChange={handleChange} required />
+            <input type="text" name="resource_name" value={resource.resource_name} onChange={handleChange}/>
           </p>
           <p>
             Author:
-            <input type="text" name="author" value={resource.author} onChange={handleChange} required />
+            <input type="text" name="author" value={resource.author} onChange={handleChange} />
           </p>
           <p>
             Location:
-            <input type="text" name="location" value={resource.location} onChange={handleChange} required />
+            <input type="text" name="location" value={resource.location} onChange={handleChange} />
           </p>
           <p>
             Description:
-            <textarea name="resource_description" value={resource.resource_description} onChange={handleChange} required />
+            <textarea name="resource_description" value={resource.resource_description} onChange={handleChange} />
           </p>
           <p>
             Genre:
-            <input type="text" name="genre" value={resource.genre} onChange={handleChange} required />
+            <input type="text" name="genre" value={resource.genre} onChange={handleChange} />
           </p>
           <p>
             Total Copies:
-            <input type="number" name="total_copies" value={resource.total_copies} onChange={handleChange} required />
+            <input type="number" name="total_copies" value={resource.total_copies} onChange={handleChange} />
           </p>
           <p>
             Copies Available:
-            <input type="number" name="copies_available" value={resource.copies_available} onChange={handleChange} required />
+            <input type="number" name="copies_available" value={resource.copies_available} onChange={handleChange} />
           </p>
           <p>
             Version:
-            <input type="text" name="resource_version" value={resource.resource_version} onChange={handleChange} required />
+            <input type="text" name="resource_version" value={resource.resource_version} onChange={handleChange} />
           </p>
           <p>
             Type:
-            <input type="text" name="resource_type" value={resource.resource_type} onChange={handleChange} required />
+            <input type="text" name="resource_type" value={resource.resource_type} onChange={handleChange} />
           </p>
         </div>
         <button type="submit">Add Resource</button>
