@@ -4,6 +4,11 @@ import './css/card.css'
 
 const ResourceCard = ({resource}) => {
     const loggedIn = sessionStorage.getItem('loggedIn')
+    let isEmployee = false;
+    if (loggedIn && sessionStorage.getItem('accountLevel') > 1) {
+        isEmployee = true;
+    }
+
     return (
         <div key={resource.resource_id} className="card">
             <h3>{resource.resource_name}</h3>
@@ -15,7 +20,10 @@ const ResourceCard = ({resource}) => {
             <p>Copies Available: {resource.copies_available}</p>
             <p>Version: {resource.resource_version}</p>
             <p>Type: {resource.resource_type}</p>
-            {loggedIn && <Link to={`/resources/${resource.resource_id}`}>Check Out Details</Link>}
+            <div>
+                {loggedIn && <Link to={`/resource/checkout/${resource.resource_id}`}>Check Out Details</Link>}
+                {<Link to={`/resource/update/${resource.resource_id}`}>Update Information</Link>}
+            </div>
           </div>
     )
 }

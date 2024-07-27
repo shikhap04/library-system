@@ -23,6 +23,9 @@ app.get('/employees/all', async (req, res) => {
   }
 });
 
+
+
+
 app.get('/resources/all', async (req, res) => {
   try {
     const AllResources = await ResourceCommands.getAllResources();
@@ -35,9 +38,10 @@ app.get('/resources/all', async (req, res) => {
   }
 });
 
-app.post('/search/resources', async (req, res) => {
+app.post('/resources/search', async (req, res) => {
   const {field, query} = req.body;
   try {
+    console.log('server check search', field, typeof(field), query, typeof(query));
     const filteredResources = await ResourceCommands.getResource(field, query);
     res.status(201).json(filteredResources);
   }
@@ -46,6 +50,27 @@ app.post('/search/resources', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch resources' });
   }
 });
+
+app.put('/resources/update/:resource_id', async (req, res) => {
+  const { resource_id } = req.params;
+  const updatedInfo = req.body;
+  console.log('id:', resource_id, typeof(resource_id));
+  console.log('updated info', updatedInfo);
+  try {
+    const updatedResource = await ResourceCommands.updateResource(resource_id, updatedInfo);
+    if (updatedResource) {
+      res.sendStatus(200);
+    } else {
+      res.status(401).json({error: 'failed in try of server'});
+    }
+  } catch (error) {
+    console.log('error in server', error);
+    res.status(500).json({error: 'error in server'})
+  }
+});
+
+
+
 
 app.post('/login/validate', async (req, res) => {
   const {username, password} = req.body;
@@ -64,7 +89,7 @@ app.post('/login/validate', async (req, res) => {
     console.log('error in server', error);
     res.status(500).json({ error: 'Failed to login. Check server' });
   }
-})
+});
 
 
 app.post('/login/createAccount', async (req, res) => {
@@ -83,7 +108,7 @@ app.post('/login/createAccount', async (req, res) => {
     console.log('error in server:', error);
     res.status(500).json({ error: 'Failed to create account. Check server' });
   }
-})
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

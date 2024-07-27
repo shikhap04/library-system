@@ -6,7 +6,7 @@ import Home from './Home';
 import Catalog from './Catalog';
 import NavBar from './NavBar';
 import UserAccount from './UserAccount';
-import BookDetails from './BookDetails';
+import UpdateInfo from './UpdateInfo';
 import SearchPage from './Search';
 import LogIn from './LogIn';
 import CreateAccount from './CreateAccount';
@@ -19,7 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/catalog" element={<Catalog />} />
-          <Route path="/book/:id" element={<BookDetails />} />
+          <Route path="/resource/update/:resource_id" element={<UpdateInfo />} />
           <Route path="/account" element={<UserAccount />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/logIn" element={<LogIn/>} />

@@ -21,7 +21,8 @@ const SearchCatalog = () => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:3001/search/resources', { field, query });
+      console.log('type of ', typeof(query));
+      const response = await axios.post('http://localhost:3001/resources/search', { field, query });
       setResources(response.data);
       setError(null);
     } catch (error) {
@@ -64,7 +65,7 @@ const SearchCatalog = () => {
 
       {error && <p style={{ color: 'red'}}>Error: {error}</p>}
 
-      {Array.isArray(resources) && resources.length > 0 && searched? (
+      {Array.isArray(resources) && resources.length > 0 && searched ? (
         resources.map(resource => (
           <ResourceCard key={resource.resource_id} resource={resource} />
         ))

@@ -46,7 +46,7 @@ class Database {
     const params = [];
     Object.entries(args).forEach(([key, value]) => {
       if (value) {
-        params.push(`${key} = '${value}'`);
+        params.push(`${key} = "${value}"`);
       }
     });
     if (params.length === 0) return ``;
