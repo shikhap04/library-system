@@ -70,6 +70,8 @@ const CreateAccount = () => {
                     setSuccess(successMessage);
                     setError(null)
                 };
+                setUsername('');
+                setPassword('');
             } else {
                 console.log('Username taken in:', username);
                 console.log('Password taken in:', password);
