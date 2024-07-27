@@ -19,6 +19,7 @@ const CreateAccount = () => {
 
     // FOR FUTURE TO MAKE OPTION SO THAT ADMIN CAN CREATE EMPLOYEE, USER AND ETC.
     const loggedIn = sessionStorage.getItem('loggedIn');
+    const currUserName = sessionStorage.getItem('username');
     if (loggedIn) {
         const currAccountLevel = sessionStorage.getItem('accountLevel');
         var isAdmin = false;
@@ -89,6 +90,11 @@ const CreateAccount = () => {
         e.preventDefault();
         if(!userDelete) {
             setErrorDelete('Please enter a username to delete');
+            setSuccessDelete(null);
+            return;
+        }
+        if (userDelete == 'user1' || userDelete == currUserName) {
+            setErrorDelete('Cannot delete ' + userDelete +  ' please try again');
             setSuccessDelete(null);
             return;
         }
