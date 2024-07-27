@@ -126,7 +126,3 @@ const UpdateInfo = () => {
 };
 
 export default UpdateInfo;
-
-
-
-

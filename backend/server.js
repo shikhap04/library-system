@@ -51,6 +51,24 @@ app.post('/resources/search', async (req, res) => {
   }
 });
 
+app.post('/resources/add', async(req, res) => {
+  const newResource = req.body;
+  console.log(newResource);
+  try {
+    const resourcedAdded = await ResourceCommands.addResource(newResource);
+    if (resourcedAdded) {
+      res.sendStatus(201);
+    }
+    else {
+      res.status(401).json({error: 'error in adding try'});
+    }
+
+  } catch (error) {
+    console.log('error in server adding', error);
+    res.status(500).json({error: 'failed to add in server'});
+  }
+});
+
 app.put('/resources/update/:resource_id', async (req, res) => {
   const { resource_id } = req.params;
   const updatedInfo = req.body;

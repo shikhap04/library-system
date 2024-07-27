@@ -28,7 +28,10 @@ const NavBar = () => {
       <Link to="/search">Search</Link>
       <Link to="/catalog">Catalog</Link>
       {isEmployee && 
-        <Link to="/createaccount"> Create Account</Link>
+        <> 
+          <Link to="/createaccount"> Create Account</Link>
+          <Link to="createResource"> Add Resource</Link>
+        </>
       }
       {loggedIn ? (
         <>

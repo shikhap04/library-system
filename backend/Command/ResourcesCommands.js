@@ -48,6 +48,54 @@ const getResource = async(field, value) => {
     return result;
   };
 
+const addResource = async(info) => {
+  const findMaxIdCommand = `SELECT MAX(resource_id) AS max_id FROM resources;`
+  let resource_id = -1;
+  try {
+    const result = await Database.query(findMaxIdCommand);
+    if (result <= 0) {
+      return null;
+    }
+    resource_id = result[0].max_id + 1;
+    console.log('new id', resource_id, typeof(resource_id));
+  } catch (error) {
+    console.log('error in finding maxID', error);
+    return null;
+  }
+
+  const {
+    resource_name,
+    author,
+    location,
+    resource_description,
+    genre,
+    total_copies,
+    copies_available,
+    resource_version,
+    resource_type
+  } = info;
+
+  const command = `INSERT INTO resources 
+  (resource_id, resource_name, author, location, resource_description, genre, total_copies, copies_available, resource_version, resource_type)
+  VALUES (${resource_id}, '${resource_name}', '${author}', '${location}', '${resource_description}', '${genre}', ${total_copies}, ${copies_available}, '${resource_version}', '${resource_type}');`
+
+  try {
+    const result = await Database.query(command);
+    if (result) {
+      console.log('success in commands', result);
+      return result;
+    }
+    else {
+      console.log('fail in commands');
+      return false;
+    }
+  } catch (error) {
+    console.error('Error adding resource:', error);
+    return null;
+  }
+
+};
+
 
 const updateResource = async(resourceID, updatedInfo) => {
   argsJson = JSON.stringify(updatedInfo)
@@ -81,6 +129,7 @@ const deleteResource = async(resourceID) => {
   module.exports = {
     getAllResources,
     getResource,
+    addResource,
     updateResource,
     deleteResource,
   };
