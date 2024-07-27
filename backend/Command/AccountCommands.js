@@ -64,8 +64,29 @@ const createAccount = async(username, password, accountLevel) => {
 
 }
 
+const deleteAccount = async(username) => {
+    console.log('reached account commands delete');
+    const exists = await usernameExists(username);
+    if (!exists) {
+        return false;
+        // could return a string and check in server?
+    }
+
+    const command = `DELETE FROM accounts WHERE user_name = '${username}';`
+    try {
+        const result = await Database.query(command);
+        console.log(result);
+        return result;
+    } catch (error) {
+        console.log('issue in commands', error);
+        return false;
+    }
+
+}
+
 
 module.exports = {
     validateAccount,
     createAccount,
+    deleteAccount,
 }

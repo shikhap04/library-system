@@ -11,7 +11,10 @@ const CreateAccount = () => {
     const [accountLevel, setAccountLevel] = useState(1);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
-
+    
+    const [userDelete, setUserDelete] = useState('');
+    const [errorDelete, setErrorDelete] = useState(null);
+    const [successDelete, setSuccessDelete] = useState(null);
     const navigate = useNavigate();
 
     // FOR FUTURE TO MAKE OPTION SO THAT ADMIN CAN CREATE EMPLOYEE, USER AND ETC.
@@ -23,10 +26,6 @@ const CreateAccount = () => {
         if (loggedIn && currAccountLevel == 3) {
             isAdmin = true;
             isEmployee = true;
-        } else if (loggedIn && currAccountLevel == 2) {
-            isEmployee = true;
-        }
-        if (isAdmin) {
             var selectLevel = <select 
                     value={accountLevel}
                     onInput={(e) => setAccountLevel(Number(e.target.value))}>
@@ -34,16 +33,16 @@ const CreateAccount = () => {
                     <option value = "2">Employee</option>
                     <option value = "3">Administrator</option>
                 </select>;
-        } else if (isEmployee) {
+        } else if (loggedIn && currAccountLevel == 2) {
+            isEmployee = true;
             var selectLevel = <select 
                     value={accountLevel}
                     onInput={(e) => setAccountLevel(Number(e.target.value))}>
                     <option value = "1">User</option>
                     <option value = "2">Employee</option>
                 </select>;
-        } 
+        }
     }
-    
 
     const handleCreateAccount = async(e) => {
         e.preventDefault();
@@ -55,7 +54,7 @@ const CreateAccount = () => {
         if (!checkAlphaNumeric(username) || !checkAlphaNumeric(password)) {
             setError('Usernames and passwords can only contain letters and numbers. Please try again!')
             setSuccess(null)
-            return;
+            return ;
         }
         
         try {
@@ -81,6 +80,35 @@ const CreateAccount = () => {
             setError('Account already exists, try another username!');
             setSuccess(null)
             console.log('ERROR in create acc', error);
+        }
+    }
+
+    const handleDeleteAccount = async(e) => {
+        e.preventDefault();
+        if(!userDelete) {
+            setErrorDelete('Please enter a username to delete');
+            setSuccessDelete(null);
+            return;
+        }
+        try { 
+            console.log('user to delete in handle delete: ', userDelete, typeof(userDelete));
+            const response = await axios.delete('http://localhost:3001/login/delete', {
+                data: {userDelete}
+            });
+            if (response.status === 200) {
+                setSuccessDelete('Account for ' + userDelete + ' deleted successfully');
+                setErrorDelete(null);
+                setUserDelete('');
+                return;
+            }
+            else {
+                setErrorDelete('error in try');
+                setSuccessDelete(null);
+            }
+        } catch (error) {
+            console.log('error in handle delete', error)
+            setErrorDelete("User doesn't exist try again!")
+            setSuccessDelete(null);
         }
     }
 
@@ -110,6 +138,18 @@ const CreateAccount = () => {
             <div> 
                 <p style={{ color: 'green'}}>Success: {success}</p>
                 {!loggedIn && <button onClick={handleRedirect}>Redirect to logIn Page</button>}
+            </div>
+        }
+        {isAdmin && 
+            <div>
+                <h1>Delete Account</h1>
+                <form onSubmit={handleDeleteAccount}>
+                    <label>Username:</label>
+                    <input type='text' value = {userDelete} onChange={(e) => setUserDelete(e.target.value)}/>
+                    <button type="submit">Delete Account</button>
+                </form>
+                {errorDelete && <p style={{ color: 'red'}}>Error: {errorDelete}</p>}
+                {successDelete && <p style={{ color: 'green'}}>Success: {successDelete}</p>}
             </div>
         }
     </div>

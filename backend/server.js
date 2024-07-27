@@ -4,6 +4,7 @@ const cors = require('cors');
 const ResourceCommands = require('./Command/ResourcesCommands');
 const EmployeeCommands = require('./Command/UserCommands');
 const AccountCommands = require('./Command/AccountCommands');
+const { user } = require('./config');
 
 const app = express();
 const port = 3001;
@@ -142,6 +143,24 @@ app.post('/login/createAccount', async (req, res) => {
     res.status(500).json({ error: 'Failed to create account. Check server' });
   }
 });
+
+app.delete('/login/delete', async (req, res) => {
+  const userDelete = req.body.userDelete;
+  console.log('delete in server :', userDelete, typeof(userDelete));
+  try {
+    const deletedAccount = await AccountCommands.deleteAccount(userDelete);
+    if (deletedAccount) {
+      res.sendStatus(200);
+      console.log('deleted successfully')
+    } else {
+      res.status(401).json({error: 'failed in try of server delete'});
+    }
+  } catch (error) {
+    console.log('error in server', error);
+    res.status(500).json({error: 'error in server'})
+  }
+});
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
