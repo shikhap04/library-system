@@ -22,7 +22,7 @@ const checkOut = async(userid, resourceid) => {
         const updateResult = await Database.query(updateCommand);
         // Updates checkouts table
         const logCheckout = `INSERT INTO checkouts
-                        VALUES ('${userid}','${resourceid}', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 14 DAY), true);`;
+                        VALUES ('${userid}','${resourceid}', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 14 DAY), false, false, false);`;
         const logResult = await Database.query(logCheckout);
         console.log('checkout complete');
         return true;
@@ -48,8 +48,8 @@ const returnResource = async(userid, resourceid) => {
         const updateResult = await Database.query(updateCommand);
         // Updates checkouts table
         const logReturn = `UPDATE checkouts
-                        SET user_has_book = false
-                        WHERE user_id = '${userid}' and resource_id = '${resourceid}' and user_has_book = true;`;
+                        SET resource_returned = true
+                        WHERE user_id = '${userid}' and resource_id = '${resourceid}' and user_has_resource = true;`;
         const logResult = await Database.query(logReturn);
         console.log('return complete');
         return true;
