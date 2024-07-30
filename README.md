@@ -4,9 +4,9 @@
 This project was completed using a Windows system.
 
 ### Code Set Up
-First install Node.js and npm from [here]()
+First install Node.js and npm from [here](https://nodejs.org/en/download/package-manager)
 
-Download code needed from [GitHub]()
+Download code needed from [GitHub](https://github.com/shikhap04/library-system)
 
 Then run the following command in project directory to install
 ```
@@ -14,7 +14,7 @@ npm install
 ```
 
 ### Database Set Up
-Download MySQL from [here]()
+Download MySQL from [here](https://dev.mysql.com/downloads/installer/)
 ***When creating database ensure that the username is "root" and password is "password"***
 
 Run the following commands to set up database in MySQL Workbench
