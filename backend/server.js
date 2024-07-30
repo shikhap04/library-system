@@ -120,6 +120,17 @@ app.post('/resources/return', async(req, res) => {
   }
 })
 
+app.post('/account/checkouts', async (req, res) => {
+  const {userid} = req.body;
+  try {
+    const UserCheckouts = await CheckoutCommands.getCheckedOutbyUser(userid);
+    res.status(200).json(UserCheckouts);
+  } catch (error) {
+    console.log('issues with sending');
+    res.status(500).json({ error: 'Failed to fetch resources' });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
