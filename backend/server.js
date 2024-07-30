@@ -103,6 +103,23 @@ app.post('/resources/checkout', async(req, res) => {
   }
 })
 
+app.post('/resources/return', async(req, res) => {
+  const {userid, resourceid} = req.body;
+  try {
+    const resourceReturned = await CheckoutCommands.returnResource(userid, resourceid);
+    if (resourceReturned) {
+      res.status(200).json({resourceCheckedOut});
+      console.log('successful return in server!')
+    } else {
+      res.status(409).json({error: 'failed to return. at total copies'});
+      console.log('invalid return')
+    } 
+  } catch(error) {
+    console.log('error in server:', error);
+    res.status(500).json({error: 'Failed to return. Check server'});
+  }
+})
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
