@@ -15,6 +15,7 @@ npm install
 
 ### Database Set Up
 Download MySQL from [here](https://dev.mysql.com/downloads/installer/)
+
 ***When creating database ensure that the username is "root" and password is "password"***
 
 Run the following commands to set up database in MySQL Workbench
@@ -23,7 +24,8 @@ DROP DATABASE IF EXISTS `librarysystem`;
 CREATE DATABASE `librarysystem`;
 USE `librarysystem`;
 
-# Accounts table
+### Accounts table
+```
 CREATE TABLE accounts (
 	user_id varchar(36),
     user_name varchar(50) NOT NULL,
@@ -31,8 +33,10 @@ CREATE TABLE accounts (
     accountLevel INT NOT NULL, # 1 is member, 2 is employee, 3 is admin
     PRIMARY KEY (user_ID) # each user is identified by their unique ID
 );
+```
 
-# Resources table
+### Resources table
+```
 CREATE TABLE resources
 (
 	resource_id INT NOT NULL,
@@ -47,9 +51,10 @@ CREATE TABLE resources
     resource_type VARCHAR(50) NOT NULL,
 	PRIMARY KEY (resource_id) # each resource is identified by their unique ID
 );
+```
 
-
-# Checkout table
+### Checkout table
+```
 CREATE TABLE checkouts
 (
 	user_id varchar(255) NOT NULL,		
@@ -58,7 +63,7 @@ CREATE TABLE checkouts
     due_date DATE NOT NULL,
     user_has_book BOOLEAN NOT NULL
 );
-
+```
 
 
 ## Running Code
