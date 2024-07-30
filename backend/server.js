@@ -4,6 +4,7 @@ const cors = require('cors');
 const ResourceCommands = require('./Command/ResourcesCommands');
 const EmployeeCommands = require('./Command/UserCommands');
 const AccountCommands = require('./Command/AccountCommands');
+const CheckoutCommands = require('./Command/CheckoutCommands');
 
 const app = express();
 const port = 3001;
@@ -82,6 +83,23 @@ app.post('/login/createAccount', async (req, res) => {
   } catch (error) {
     console.log('error in server:', error);
     res.status(500).json({ error: 'Failed to create account. Check server' });
+  }
+})
+
+app.post('/resources/checkout', async(req, res) => {
+  const {userid, resourceid} = req.body;
+  try {
+    const resourceCheckedOut = await CheckoutCommands.checkOut(userid, resourceid);
+    if (resourceCheckedOut) {
+      res.status(200).json({resourceCheckedOut});
+      console.log('successful checkout in server!')
+    } else {
+      res.status(409).json({error: 'failed to checkout. no availability'});
+      console.log('no available resources to checkout')
+    } 
+  } catch(error) {
+    console.log('error in server:', error);
+    res.status(500).json({error: 'Failed to checkout. Check server'});
   }
 })
 

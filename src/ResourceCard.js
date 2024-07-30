@@ -15,7 +15,7 @@ const ResourceCard = ({resource}) => {
             <p>Copies Available: {resource.copies_available}</p>
             <p>Version: {resource.resource_version}</p>
             <p>Type: {resource.resource_type}</p>
-            {loggedIn && <Link to={`/resources/${resource.resource_id}`}>Check Out Details</Link>}
+            {loggedIn && <Link to={`/book/${resource.resource_id}`}>Check Out Details</Link>}
           </div>
     )
 }
