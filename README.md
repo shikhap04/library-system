@@ -20,9 +20,11 @@ Download MySQL from [here](https://dev.mysql.com/downloads/installer/)
 
 Run the following commands to set up database in MySQL Workbench
 
+```
 DROP DATABASE IF EXISTS `librarysystem`;
 CREATE DATABASE `librarysystem`;
 USE `librarysystem`;
+```
 
 ### Accounts table
 ```
