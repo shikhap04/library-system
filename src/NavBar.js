@@ -32,6 +32,7 @@ const NavBar = () => {
         <> 
           <Link to="/createaccount"> Create Account</Link>
           <Link to="createResource"> Add Resource</Link>
+          <Link to="/calendar/event/create">Add Event</Link>
         </>
       }
       {loggedIn ? (

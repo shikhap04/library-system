@@ -187,6 +187,11 @@ app.post('/calendar/event/ID', async(req, res) => {
 
 app.post('/calendar/event/add', async(req, res) => {
   const newEvent = req.body;
+  const formattedStart = moment(newEvent.startTime).format('YYYY-MM-DD HH:mm:ss');
+  const formattedEnd = moment(newEvent.endTime).format('YYYY-MM-DD HH:mm:ss');
+
+  newEvent.startTime = formattedStart;
+  newEvent.endTime = formattedEnd;
   console.log(newEvent);
   try {
     const eventAdded = await EventCommands.addEvent(newEvent);
@@ -214,7 +219,7 @@ app.put('/calendar/event/update/:event_id', async (req, res) => {
 
   updatedInfo.startTime = formattedStart;
   updatedInfo.endTime = formattedEnd;
-  console.log('approved: ', updatedInfo.approved);
+ 
   try {
     const updatedEvent = await EventCommands.updateEvent(event_id, updatedInfo);
     if (updatedEvent) {

@@ -14,6 +14,7 @@ import CreateResource from './CreateResource';
 import EventsCalendar from './Calendar';
 import Event from './EventDetails';
 import UpdateEvent from './EventUpdate';
+import CreateEvent from './CreateEvent';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
           <Route path="/calendar" element={<EventsCalendar/>} />
           <Route path="/calendar/event/:event_id" element={<Event/>} />
           <Route path="/calendar/event/update/:event_id" element={<UpdateEvent/>} />
+          <Route path="/calendar/event/create" element={<CreateEvent/>} />
         </Routes>
       </div>
     </Router>
