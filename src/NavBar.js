@@ -27,10 +27,12 @@ const NavBar = () => {
       <Link to="/">Home</Link>
       <Link to="/search">Search</Link>
       <Link to="/catalog">Catalog</Link>
+      <Link to="/calendar">Calendar</Link>
       {isEmployee && 
         <> 
           <Link to="/createaccount"> Create Account</Link>
           <Link to="createResource"> Add Resource</Link>
+          <Link to="/calendar/event/create">Add Event</Link>
         </>
       }
       {loggedIn ? (

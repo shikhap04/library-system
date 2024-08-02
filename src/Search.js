@@ -47,6 +47,7 @@ const SearchCatalog = () => {
           <option value = "author">Author</option>
           <option value = "location">Location</option>
           <option value = "genre">Genre</option>
+          <option value = "version">Version</option>
           <option value = "resource_type">Resource Type</option>
         </select>
         <input

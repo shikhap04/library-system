@@ -4,7 +4,8 @@ const cors = require('cors');
 const ResourceCommands = require('./Command/ResourcesCommands');
 const EmployeeCommands = require('./Command/UserCommands');
 const AccountCommands = require('./Command/AccountCommands');
-const { user } = require('./config');
+const EventCommands = require('./Command/EventCommands');
+const moment = require('moment');
 
 const app = express();
 const port = 3001;
@@ -16,7 +17,7 @@ app.use(express.json());
 app.get('/employees/all', async (req, res) => {
   try {
     const AllEmployees = await EmployeeCommands.getAllUsers();
-    res.json(AllEmployees);
+    res.status(200).attachmentjson(AllEmployees);
     console.log("trying to fetch employees")
   } catch (error) {
     console.log('ISSUE IN APP.GET')
@@ -154,6 +155,93 @@ app.delete('/login/delete', async (req, res) => {
       console.log('deleted successfully')
     } else {
       res.status(401).json({error: 'failed in try of server delete'});
+    }
+  } catch (error) {
+    console.log('error in server', error);
+    res.status(500).json({error: 'error in server'})
+  }
+});
+
+
+app.post('/calendar/events', async (req, res) => {
+  const { isAdmin } = req.body;
+  try {
+    const allEvents = await EventCommands.getAllEvents(isAdmin);
+    res.status(200).json(allEvents);
+  } catch (error) {
+    console.log('error in server getting events', error)
+    res.status(500).json({error: 'error in server'})
+  }
+});
+
+app.post('/calendar/event/ID', async(req, res) => {
+  const {event_id} = req.body;
+  try {
+    const event = await EventCommands.getEvent(event_id);
+    res.status(200).json(event);
+  } catch (error) {
+    console.log('error in server getting event with ',event_id, error)
+    res.status(500).json({error: 'error in server'})
+  }
+});
+
+app.post('/calendar/event/add', async(req, res) => {
+  const newEvent = req.body;
+  const formattedStart = moment(newEvent.startTime).format('YYYY-MM-DD HH:mm:ss');
+  const formattedEnd = moment(newEvent.endTime).format('YYYY-MM-DD HH:mm:ss');
+
+  newEvent.startTime = formattedStart;
+  newEvent.endTime = formattedEnd;
+  console.log(newEvent);
+  try {
+    const eventAdded = await EventCommands.addEvent(newEvent);
+    if (eventAdded) {
+      res.sendStatus(201);
+    }
+    else {
+      res.status(401).json({error: 'error in adding try'});
+    }
+
+  } catch (error) {
+    console.log('error in server adding', error);
+    res.status(500).json({error: 'failed to add in server'});
+  }
+});
+
+app.put('/calendar/event/update/:event_id', async (req, res) => {
+  const { event_id } = req.params;
+  const updatedInfo = req.body;
+  console.log('id:', event_id, typeof(event_id));
+  console.log('updated info', updatedInfo);
+
+  const formattedStart = moment(updatedInfo.startTime).format('YYYY-MM-DD HH:mm:ss');
+  const formattedEnd = moment(updatedInfo.endTime).format('YYYY-MM-DD HH:mm:ss');
+
+  updatedInfo.startTime = formattedStart;
+  updatedInfo.endTime = formattedEnd;
+ 
+  try {
+    const updatedEvent = await EventCommands.updateEvent(event_id, updatedInfo);
+    if (updatedEvent) {
+      res.sendStatus(200);
+    } else {
+      res.status(401).json({error: 'failed in try of server'});
+    }
+  } catch (error) {
+    console.log('error in server', error);
+    res.status(500).json({error: 'error in server'})
+  }
+});
+
+app.delete('/calendar/event/delete/:event_id', async (req, res) => {
+  const { event_id } = req.params;
+  console.log('id:', event_id, typeof(event_id));
+  try {
+    const deletedEvent = await EventCommands.deleteEvent(event_id);
+    if (deletedEvent) {
+      res.sendStatus(200);
+    } else {
+      res.status(401).json({error: 'failed in try of server'});
     }
   } catch (error) {
     console.log('error in server', error);

@@ -22,6 +22,7 @@ const ResourceCard = ({resource}) => {
             <p>Type: {resource.resource_type}</p>
             <div>
                 {loggedIn && <Link to={`/resource/checkout/${resource.resource_id}`}>Check Out Details</Link>}
+                <div></div>
                 {isEmployee && <Link to={`/resource/update/${resource.resource_id}`}>Update Information</Link>}
             </div>
           </div>

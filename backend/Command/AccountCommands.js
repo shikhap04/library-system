@@ -1,7 +1,6 @@
 const Database = require('../Database');
 const { v4: uuid } = require('uuid');
 const bcrypt = require('bcrypt');
-const { user } = require('../config');
 
 // JUST LOGGING IN AND ADDING AN ACCOUNT
 

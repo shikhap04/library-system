@@ -24,19 +24,22 @@ const getResource = async(field, value) => {
         command = `SELECT * FROM resources WHERE resource_id = ${value};`;
         break;
       case ('resource_name'):
-        command = `SELECT * FROM resources WHERE resource_name = '${value}';`;
+        command = `SELECT * FROM resources WHERE resource_name = '${value}' AND copies_available > 0;`;
         break;
       case ('author'):
-        command = `SELECT * FROM resources WHERE author = '${value}' ORDER BY resource_name;`;
+        command = `SELECT * FROM resources WHERE author = '${value}' AND copies_available > 0;`;
         break;
       case ('location'):
-        command = `SELECT * FROM resources WHERE location = '${value}' ORDER BY resource_name;`;
+        command = `SELECT * FROM resources WHERE location = '${value}' AND copies_available > 0 ORDER BY resource_name;`;
         break;
       case ('genre'):
-        command = `SELECT * FROM resources WHERE genre = '${value}' ORDER BY resource_name;`;
+        command = `SELECT * FROM resources WHERE genre = '${value}' AND copies_available > 0 ORDER BY resource_name;`;
+        break;
+      case ('version'):
+        command = `SELECT * FROM resources WHERE resource_version = '${value}' AND copies_available > 0 ORDER BY resource_name;`;
         break;
       case ('resource_type'):
-        command = `SELECT * FROM resources WHERE resource_type = '${value}' ORDER BY resource_name;`;
+        command = `SELECT * FROM resources WHERE resource_type = '${value}' AND copies_available > 0 ORDER BY resource_name;`;
         break;
     }
   
