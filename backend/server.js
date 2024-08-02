@@ -4,7 +4,7 @@ const cors = require('cors');
 const ResourceCommands = require('./Command/ResourcesCommands');
 const EmployeeCommands = require('./Command/UserCommands');
 const AccountCommands = require('./Command/AccountCommands');
-const { user } = require('./config');
+const EventCommands = require('./Command/EventCommands');
 
 const app = express();
 const port = 3001;
@@ -16,7 +16,7 @@ app.use(express.json());
 app.get('/employees/all', async (req, res) => {
   try {
     const AllEmployees = await EmployeeCommands.getAllUsers();
-    res.json(AllEmployees);
+    res.status(200).attachmentjson(AllEmployees);
     console.log("trying to fetch employees")
   } catch (error) {
     console.log('ISSUE IN APP.GET')
@@ -157,6 +157,17 @@ app.delete('/login/delete', async (req, res) => {
     }
   } catch (error) {
     console.log('error in server', error);
+    res.status(500).json({error: 'error in server'})
+  }
+});
+
+
+app.get('/events/all', async (req, res) => {
+  try {
+    const allEvents = await EventCommands.getAllEvents();
+    res.status(200).json(allEvents);
+  } catch (error) {
+    console.log('error in server getting events', error)
     res.status(500).json({error: 'error in server'})
   }
 });
