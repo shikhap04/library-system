@@ -27,7 +27,7 @@ USE `librarysystem`;
 ```
 
 ### Accounts table
-***The first admininstrator account will be inserted below, username: ``user`` and pasword is ``password1``
+***The first admininstrator account will be inserted below, username: ``user`` and pasword is ``password1``***
 
 ```
 CREATE TABLE accounts (
