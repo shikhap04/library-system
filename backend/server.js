@@ -310,7 +310,3 @@ app.post('/calendar/RSVP/check', async(req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
-
-
-//https://zapier.com/blog/how-to-connect-database-mysql/
