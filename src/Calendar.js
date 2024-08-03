@@ -55,6 +55,21 @@ const EventsCalendar = () => {
     );
   };  
 
+  const eventStyleGetter = (event) => {
+    let backgroundColor = event.approved ? '#124E66' : '#dc3545'; // Green for approved, red for not approved
+    let style = {
+      backgroundColor,
+      borderRadius: '5px',
+      opacity: 0.8,
+      color: 'white',
+      border: '0px',
+      display: 'block'
+    };
+    return {
+      style: style
+    };
+  };
+
 
   const handleRedirect = (event) => {
     if (sessionStorage.getItem('accountLevel') != 3) {
@@ -77,6 +92,7 @@ const EventsCalendar = () => {
               style={{ height: 500 }}
               components={{ event: EventComponent }}
               onSelectEvent={handleRedirect}
+              eventPropGetter={eventStyleGetter}
           />
           {error && <p style={{ color: 'red'}}>Error: {error}</p>}
       </div>
