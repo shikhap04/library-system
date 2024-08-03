@@ -5,6 +5,7 @@ const ResourceCommands = require('./Command/ResourcesCommands');
 const EmployeeCommands = require('./Command/UserCommands');
 const AccountCommands = require('./Command/AccountCommands');
 const EventCommands = require('./Command/EventCommands');
+const EventRSVPCommands = require('./Command/EventRSVPCommands');
 const moment = require('moment');
 
 const app = express();
@@ -249,6 +250,45 @@ app.delete('/calendar/event/delete/:event_id', async (req, res) => {
   }
 });
 
+
+app.post('/calendar/RSVP/add', async (req, res) => {
+  const RSVP = req.body;
+  
+  console.log(RSVP);
+  try {
+    const RSVPAdded = await EventRSVPCommands.addRSVP(RSVP);
+    if (RSVPAdded) {
+      res.sendStatus(201);
+    }
+    else {
+      console.log('rsvp already exists')
+      res.status(401).json({error: 'RSVP exists'});
+    }
+
+  } catch (error) {
+    console.log('error in server adding rsvp', error);
+    res.status(500).json({error: 'failed to add rsvp in server'});
+  }
+
+});
+
+app.post('/calendar/RSVP/check', async(req, res) => {
+  const {event_id, user_id} = req.body;
+
+  try {
+    const RSVPExists = await EventRSVPCommands.checkRSVP(event_id, user_id);
+    if (RSVPExists) {
+      res.status(201).json(RSVPExists[0]);
+    }
+    else {
+      console.log('rsvp exists');
+      res.status(401).json({error: 'rsvp exists'});
+    }
+  } catch (error) {
+    console.log('error in server check rsvp', error);
+    res.status(500).json({error: 'failed to check rsvp in server'});
+  }
+})
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

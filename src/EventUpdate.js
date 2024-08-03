@@ -53,12 +53,14 @@ const UpdateEvent = () => {
             setError('Has to have at least 1 spot. Please try again!');
             setSuccess(null);
             return;
+        } 
+        if (event.spotsLeft > event.spotsTotal) {
+            setError('Has to have at least ' + (event.spotsLeft) +' spots. Please try again!');
+            setSuccess(null);
+            return;
         }
         try {
-            const response = await axios.put(`/calendar/event/update/${event_id}`, {
-                ...event,
-                spotsLeft: event.spotsTotal,
-            });
+            const response = await axios.put(`/calendar/event/update/${event_id}`, event);
             if (response.status === 200) {
                 setSuccess('Successfully Updated');
                 setError(null);
@@ -132,7 +134,7 @@ const UpdateEvent = () => {
                         onChange={handleChange}
                         className = "inputDropDown">
                             <option value = "1">Approved</option>
-                            <option value = "0">Not Approved</option>
+                            {!event.approved &&<option value = "0">Not Approved</option>}
                     </select>
                 </p>
                 <button type="submit">Update</button>
