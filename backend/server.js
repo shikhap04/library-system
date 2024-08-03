@@ -272,6 +272,23 @@ app.post('/calendar/RSVP/add', async (req, res) => {
 
 });
 
+app.post('/calendar/RSVP/delete', async(req, res) => {
+  const RSVP = req.body;
+
+  console.log(RSVP);
+  try {
+    const RSVPdeleted = await EventRSVPCommands.deleteRSVP(RSVP);
+    if (RSVPdeleted) {
+      res.sendStatus(200);
+    } else {
+      res.send(401).json({error: 'error in try of server'})
+    }
+  } catch(error) {
+    console.log('error in server deleting rsvp', error);
+    res.status(500).json(error);
+  }
+})
+
 app.post('/calendar/RSVP/check', async(req, res) => {
   const {event_id, user_id} = req.body;
 
@@ -296,50 +313,4 @@ app.listen(port, () => {
 
 
 
-
 //https://zapier.com/blog/how-to-connect-database-mysql/
-// const config = require('./config')
-// const mysql = require('mysql2');
-// const express = require('express');
-// const application = express();
-// const port = 3000;
-
-// const express = require('express');
-// const application = express();
-// const port = 3000;
-
-// // create a new MySQL connection
-// const connection = mysql.createConnection({
-//   host: 'localhost',
-//   user: 'root',
-//   password: 'password',
-//   database: 'librarysystem'
-// });
-// // connect to the MySQL database
-// connection.connect((error)=>{
-//   if(error){
-//     console.error('Error connecting to MySQL database:', error);
-//   }else{
-//     console.log('Connected to MySQL database!');
-//   }
-// });
-
-// const newEmployee = {user_id : 1, user_name: 'employee1', pass_word: 'pass1'};
-// connection.query('SELECT user_id, user_name, pass_word accountLevel FROM username_password', function (err, result, fields) {
-//   if (err) {
-//   console.error('Error inserting data:', err);
-//   return;
-//   }
-//   application.get('/', (req, res) => {
-//     res.send(result)
-//    })
-//  });
-
-
-//  application.listen(port, () => {
-//   console.log('example app listening on port ${port}')
-//  })
-
- 
-// // close the MySQL connection
-// connection.end();

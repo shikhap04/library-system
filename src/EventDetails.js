@@ -72,6 +72,23 @@ const Event = () => {
       }
     };
 
+    const handleDeleteRSVP = async(e) => {
+      e.preventDefault();
+      RSVP.numSpots = RSVPSpots.numSpots;
+      try {
+        const response = await axios.post('/calendar/RSVP/delete', RSVP)
+        if (response.status === 200) {
+          setSuccess('Successfully deleted RSVP');
+          setError(null);
+          //setRSVPSpots(null);
+        }
+      } catch(error) {
+        console.log('error deleting rsvp', error);
+        setError('Cannot delete RSVP');
+        setSuccess(null);
+      }
+    }
+
     const handleChange = (e) => {
       setRVSP({ ...RSVP, [e.target.name]: e.target.value });
     };
@@ -85,7 +102,10 @@ const Event = () => {
             <p>Total spots: {event.spotsTotal}</p>
             <p>Spots Left: {event.spotsLeft}</p>
             {loggedIn && RSVPSpots && 
-              <p>You already have RSVP'd for {RSVPSpots.numSpots}</p>
+              <div>
+                <p>You already have RSVP'd for {RSVPSpots.numSpots}</p>
+                <button onClick={handleDeleteRSVP}>Delete RSVP</button>
+              </div>
             }
             {loggedIn && !RSVPSpots &&
               <form

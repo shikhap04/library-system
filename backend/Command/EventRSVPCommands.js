@@ -1,6 +1,4 @@
-const { EnvironmentPlugin } = require('webpack');
 const Database = require('../Database');
-const { user } = require('../config');
 
 const reduceCount = async(numSpots, event_id) => {
     const command = `UPDATE events SET spotsLeft = spotsLeft - ${numSpots} WHERE event_id = ${event_id};`;
@@ -27,7 +25,7 @@ const increaseCount = async(numSpots, event_id) => {
     try {
         const result = await Database.query(command);
         if (result) {
-            console.log('success in commands', result);
+            console.log('success in commands increasing', result);
             return result;
           }
           else {
@@ -92,11 +90,13 @@ const deleteRSVP = async(RSVP) => {
         numSpots
     } = RSVP;
 
+    console.log('rsvp to delete', RSVP);
     const command = `DELETE FROM eventRSVP WHERE event_id = ${event_id} AND user_id = '${user_id}'`;
     try {
         const result = await Database.query(command);
-        increaseCount(numSpots, event_id);
-        console.log(result); 
+        const increased = await increaseCount(numSpots, event_id);
+        console.log(result, increased); 
+        return result;
     } catch (error) {
         console.log('error in commands delte', error)
         return null;
