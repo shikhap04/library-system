@@ -16,6 +16,7 @@ const UpdateEvent = () => {
         spotsLeft: 0,
         approved: "0",
     });
+    const [RSVPCount, setRSVPCount] = useState(0);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
 
@@ -37,7 +38,9 @@ const UpdateEvent = () => {
                 ...response.data[0],
                 startTime: moment(response.data[0].startTime).format('YYYY-MM-DDTHH:mm'),
                 endTime: moment(response.data[0].endTime).format('YYYY-MM-DDTHH:mm'),
-              });
+            });
+            setRSVPCount(response.data[0].spotsTotal - response.data[0].spotsLeft)
+            console.log('setting rsvp count: ', RSVPCount);
           }
           catch (error) {
             console.log('error in use effect', error);
@@ -49,16 +52,22 @@ const UpdateEvent = () => {
 
     const handleUpdateInfo = async (e) => {
         e.preventDefault();
+
         if (event.spotsTotal < 1) {
             setError('Has to have at least 1 spot. Please try again!');
             setSuccess(null);
             return;
+        } 
+        if (RSVPCount > event.spotsTotal) {
+            setError('Has to have at least ' + (RSVPCount) +' spots. Please try again!');
+            setSuccess(null);
+            return;
         }
         try {
-            const response = await axios.put(`/calendar/event/update/${event_id}`, {
-                ...event,
-                spotsLeft: event.spotsTotal,
-            });
+            event.spotsLeft = event.spotsTotal - RSVPCount;
+            console.log('num rsvp:', RSVPCount);
+            console.log('spots left: ', event.spotsLeft);
+            const response = await axios.put(`/calendar/event/update/${event_id}`, event);
             if (response.status === 200) {
                 setSuccess('Successfully Updated');
                 setError(null);
@@ -75,6 +84,11 @@ const UpdateEvent = () => {
     
     const handleDeleteEvent = async (e) => {
         e.preventDefault();
+        if (RSVPCount > 0) {
+            setError('Cannot delete event, members have RSVPed.');
+            setSuccess(null);
+            return;
+        }
         try {
         const response = await axios.delete(`/calendar/event/delete/${event_id}`);
         if (response.status === 200) {
@@ -132,7 +146,7 @@ const UpdateEvent = () => {
                         onChange={handleChange}
                         className = "inputDropDown">
                             <option value = "1">Approved</option>
-                            <option value = "0">Not Approved</option>
+                            {!event.approved &&<option value = "0">Not Approved</option>}
                     </select>
                 </p>
                 <button type="submit">Update</button>

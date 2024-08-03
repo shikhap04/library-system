@@ -27,6 +27,8 @@ USE `librarysystem`;
 ```
 
 ### Accounts table
+***The first admininstrator account will be inserted below, username: ``user`` and pasword is ``password1``
+
 ```
 CREATE TABLE accounts (
 	user_id varchar(36),
@@ -35,6 +37,7 @@ CREATE TABLE accounts (
     accountLevel INT NOT NULL, # 1 is member, 2 is employee, 3 is admin
     PRIMARY KEY (user_ID) # each user is identified by their unique ID
 );
+INSERT INTO accounts VALUES('a55bd81e-64dc-41c7-abd8-c9891dbd30d5', 'user1', '$2b$10$i.NMbbyA8xPyUS9ZdCP4TeMd4/l6StjB.sGPUmbeENtWSPmKUWNE.', 3);
 ```
 
 ### Resources table
@@ -67,6 +70,32 @@ CREATE TABLE checkouts
 );
 ```
 
+### Events table
+```
+CREATE TABLE events
+(
+    event_id INT NOT NULL,
+    event_name VARCHAR(100) NOT NULL,
+    event_desc VARCHAR(1000),
+    startTime DATETIME NOT NULL,
+    endTime DATETIME NOT NULL,
+    approved BOOL NOT NULL,
+    spotsTotal INT NOT NULL,
+    spotsLeft INT NOT NULL,
+    PRIMARY KEY (event_id) # each event is identified by their unique ID
+);
+
+```
+
+### Event RSVP table
+```
+CREATE TABLE eventRSVP (
+	event_id INT NOT NULL,
+    user_id varchar(36),
+    numSpots INT NOT NULL
+);
+```
+
 
 ## Running Code
 Go to parent directory of the program and run commnad to concurrently run backend and front end
@@ -79,3 +108,7 @@ If this does not work use command ``npm start`` to start the front-end and comma
 Go to [Local Host](http://localhost:3000/) to visit website
 
 
+## References
+[Events Calendar](https://www.npmjs.com/package/react-big-calendar)
+[Connecting Database](https://zapier.com/blog/how-to-connect-database-mysql/)
+[Using Express and Node Tutorial](https://www.youtube.com/watch?v=Uh2JCSUjA_E)
