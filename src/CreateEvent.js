@@ -21,8 +21,16 @@ const CreateEvent = () => {
 
   const handleAddingEvent = async (e) => {
     e.preventDefault();
+    if (event.spotsTotal <= 0) {
+      setError('Needs to have at least 1 spot. ');
+      setSuccess(null);
+      return;
+    }
     try {
-      const response = await axios.post('/calendar/event/add', event);
+      const response = await axios.post('/calendar/event/add', {
+        ...event,
+        spotsLeft: event.spotsTotal,
+      });
       if (response.status === 201) {
         setSuccess('Successfully added event');
         setError(null);

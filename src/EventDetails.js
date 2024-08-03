@@ -44,6 +44,7 @@ const Event = () => {
       }, [event_id, RSVP.user_id]);
 
     const handleRSVP = async (e) => {
+      e.preventDefault();
       if (RSVP.numSpots < 0) {
         setError('Invalid RSVP count');
         setSuccess(null);
@@ -54,7 +55,6 @@ const Event = () => {
         return;
       }
 
-      e.preventDefault();
       try {
         const response = await axios.post('/calendar/RSVP/add', RSVP);
         if (response.status === 201) {
