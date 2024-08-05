@@ -17,6 +17,7 @@ const BookDetails = () => {
 
   // Handles checking out selected book
   const handleCheckout = async() => {
+    console.log('handling checkout');
     try {
       const response = await axios.post('http://localhost:3001/resources/checkout', { userid, resourceid });
       if (response.status === 200) {
@@ -32,15 +33,38 @@ const BookDetails = () => {
     }
   };
 
+  // Handles returning selected book
+  const handleReturn = async() => {
+    try {
+      const response = await axios.post('http://localhost:3001/resources/return', { userid, resourceid });
+      if (response.status === 200) {
+        setSuccess('Return completed successfully!')
+        setError(null)
+      }
+      else {
+        setError('No availabilty')
+        setSuccess(null)
+      }
+    } catch(error) {
+      console.log('ERROR in returning', error);
+    }
+  };
   return (
     <div>
       <h1>{book.title}</h1>
       <h2>by {book.author}</h2>
       <p>{book.description}</p>
       <form onSubmit={handleCheckout}>
-        <button type="submit"
+        <button
+        type="submit"
         className='inputsubmit'
         >Request Check Out</button>
+      </form>
+      <form onSubmit={handleReturn}>
+        <button 
+        type="submit"
+        className='inputsubmit'
+        >Request Return</button>
       </form>
     </div>
   );

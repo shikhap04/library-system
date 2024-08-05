@@ -30,6 +30,12 @@ const NavBar = () => {
       {isEmployee && 
         <Link to="/createaccount"> Create Account</Link>
       }
+      {isEmployee &&
+        <Link to="/checkouts">Checkouts</Link>
+      }
+      {isEmployee &&
+        <Link to="/returns">Returns</Link>
+      }
       {loggedIn ? (
         <>
         <Link to="/account">My Account</Link>
