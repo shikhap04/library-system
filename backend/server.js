@@ -87,6 +87,7 @@ app.post('/login/createAccount', async (req, res) => {
 })
 
 app.post('/resources/checkout', async(req, res) => {
+  console.log('attempting checkout');
   const {userid, resourceid} = req.body;
   try {
     const resourceCheckedOut = await CheckoutCommands.checkOut(userid, resourceid);
@@ -130,6 +131,61 @@ app.post('/account/checkouts', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch resources' });
   }
 });
+
+app.get('/employee/checkouts', async(req, res) => {
+  try {
+    const AllCheckouts = await CheckoutCommands.getAllUnapprovedCheckouts();
+    res.status(200).json(AllCheckouts);
+  } catch (error) {
+    console.log('issues with sending');
+    res.status(500).json({ error: 'Failed to fetch checkouts' });
+  }
+})
+
+app.get('/employee/returns', async(req, res) => {
+  try {
+    const AllReturns = await CheckoutCommands.getAllUnapprovedReturns();
+    res.status(200).json(AllReturns);
+  } catch (error) {
+    console.log('issues with sending');
+    res.status(500).json({ error: 'Failed to fetch returns' });
+  }
+})
+
+app.post('/employee/checkouts/approval', async(req, res) => {
+  console.log('attempting checkout approval');
+  const {userid, resourceid, checkoutdate} = req.body;
+  try {
+    const checkoutApproved = await CheckoutCommands.approveCheckout(userid, resourceid, checkoutdate);
+    if (checkoutApproved) {
+      res.status(200).json({checkoutApproved});
+      console.log('successful return in server!')
+    } else {
+      res.status(409).json({error: 'failed to approve'});
+      console.log('invalid return')
+    } 
+  } catch(error) {
+    console.log('error in server:', error);
+    res.status(500).json({error: 'Failed to return. Check server'});
+  }
+})
+
+app.post('/employee/returns/approval', async(req, res) => {
+  const {userid, resourceid, checkoutdate} = req.body;
+  try {
+    const returnApproved = await CheckoutCommands.approveReturn(userid, resourceid, checkoutdate);
+    if (returnApproved) {
+      res.status(200).json({returnApproved});
+      console.log('successful return in server!')
+    } else {
+      res.status(409).json({error: 'failed to approve'});
+      console.log('invalid return')
+    } 
+  } catch(error) {
+    console.log('error in server:', error);
+    res.status(500).json({error: 'Failed to return. Check server'});
+  }
+})
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

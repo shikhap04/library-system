@@ -2,6 +2,7 @@ const Database = require('../Database');
 const { v4: uuid } = require('uuid');
 const bcrypt = require('bcrypt');
 const { user } = require('../config');
+const { get } = require('prompt');
 
 // Process the checking out of a resourec
 const checkOut = async(userid, resourceid) => {
@@ -59,9 +60,11 @@ const returnResource = async(userid, resourceid) => {
 // Returns a list of all checked out books by a user, ordered by due date
 const getCheckedOutbyUser = async(userid) => {
     console.log('list for user: ', userid);
-    const command = `SELECT * FROM checkouts
-                    WHERE user_id = '${userid}' and user_has_resource = true
-                    ORDER BY due_date;`;
+    const command = `SELECT *
+    FROM resources r1, (
+    SELECT * FROM checkouts
+    WHERE user_id = '${userid}'AND return_approved = false) r2
+    WHERE r1.resource_id = r2.resource_id;`;
     const result = await Database.query(command);
     if (result.length == 0) {
         console.log('no checkouts');
@@ -70,8 +73,80 @@ const getCheckedOutbyUser = async(userid) => {
     return result;
 };
 
+// Returns a list of all checkouts not approved by an employee
+const getAllUnapprovedCheckouts = async() => {
+    const command = `SELECT * FROM resources r1, (
+    SELECT * FROM checkouts
+    WHERE checkout_approved = false) r2
+    WHERE r1.resource_id = r2.resource_id;`;
+    const result = await Database.query(command);
+    if (result.length == 0) {
+        console.log('no checkouts to be approved');
+        return false;
+    }
+    return result;
+}
+// Approve checkouts
+const approveCheckout = async(userid, resourceid, checkoutdate) => {
+    console.log('checkout for: ', userid);
+    console.log('checked out resource: ');
+    console.log('checkout date: ', checkoutdate);
+    const command = `SELECT * FROM checkouts
+                    WHERE user_id = '${userid}' AND resource_id = '${resourceid}' AND checkout_date = CAST('${checkoutdate}' AS date);`;
+    const result = await Database.query(command);
+    if (result.length == 0) {
+        console.log("no matching checkout");
+        return false;
+    } else {
+        const approveCommand = `UPDATE checkouts
+                            SET checkout_approved = true, user_has_resource = true
+                            WHERE user_id = '${userid}' AND resource_id = '${resourceid}' AND checkout_date = '${checkoutdate}';`;
+        const approveResult = await Database.query(approveCommand);
+        return true;          
+    }
+}
+// Returns a list of all returns not approved by an employee
+const getAllUnapprovedReturns = async() => {
+    const command = `SELECT * FROM resources r1, (
+    SELECT * FROM checkouts
+    WHERE checkout_approved = true AND resource_returned = true AND return_approved = false) r2
+    WHERE r1.resource_id = r2.resource_id;`;
+    const result = await Database.query(command);
+    if (result.length == 0) {
+        console.log('no returns to be approved');
+        return false;
+    }
+    return result;
+}
+
+// Approves the return for a user
+const approveReturn = async(userid, resourceid, checkoutdate) => {
+    console.log('user returning: ', userid);
+    console.log('resource returned: ', resourceid);
+    console.log('date checked out: ', checkoutdate);
+
+    const command = `SELECT * FROM checkouts
+                    WHERE user_id = '${userid}' AND resource_id = '${resourceid}' AND checkout_date = CAST('${checkoutdate}' AS date);`;
+    const result = await Database.query(command);
+    if (result.length == 0) {
+        console.log('no matching return');
+        return false;
+    }
+    else {
+        const approveCommand = `UPDATE checkouts
+        SET return_approved = true
+        WHERE user_id = '${userid}' AND resource_id = '${resourceid}' AND checkout_date = '${checkoutdate}';`;
+        
+        const approveResult = await Database.query(approveCommand);
+        return true;
+    }
+}
 module.exports = {
     checkOut,
     returnResource,
-    getCheckedOutbyUser
+    getCheckedOutbyUser,
+    getAllUnapprovedCheckouts,
+    approveCheckout,
+    getAllUnapprovedReturns,
+    approveReturn
 }
