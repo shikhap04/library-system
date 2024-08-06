@@ -5,6 +5,7 @@ import './css/navbar.css';
 import Home from './Home';
 import Catalog from './Catalog';
 import NavBar from './NavBar';
+import BookDetails from './BookDetails';
 import UserAccount from './UserAccount';
 import UpdateInfo from './UpdateInfo';
 import SearchPage from './Search';

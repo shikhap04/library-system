@@ -1,8 +1,8 @@
 const Database = require('../Database');
-const { v4: uuid } = require('uuid');
-const bcrypt = require('bcrypt');
-const { user } = require('../config');
-const { get } = require('prompt');
+// const { v4: uuid } = require('uuid');
+// const bcrypt = require('bcrypt');
+// const { user } = require('../config');
+// const { get } = require('prompt');
 
 // Process the checking out of a resourec
 const checkOut = async(userid, resourceid) => {
