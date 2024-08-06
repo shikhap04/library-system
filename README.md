@@ -27,7 +27,7 @@ USE `librarysystem`;
 ```
 
 ### Accounts table
-***The first admininstrator account will be inserted below, username: ``user`` and pasword is ``password1``***
+***The first admininstrator account will be inserted below, username: ``user1`` and pasword is ``password1``***
 
 ```
 CREATE TABLE accounts (
@@ -62,11 +62,14 @@ CREATE TABLE resources
 ```
 CREATE TABLE checkouts
 (
-	user_id varchar(255) NOT NULL,		
+	user_id varchar(255) NOT NULL,
     resource_id INT NOT NULL,
     checkout_date DATE NOT NULL,
     due_date DATE NOT NULL,
-    user_has_book BOOLEAN NOT NULL
+    checkout_approved BOOLEAN NOT NULL,
+    user_has_resource BOOLEAN NOT NULL,
+    return_approved BOOLEAN NOT NULL,
+    resource_returned BOOLEAN NOT NULL
 );
 ```
 

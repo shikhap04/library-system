@@ -35,6 +35,12 @@ const NavBar = () => {
           <Link to="/calendar/event/create">Add Event</Link>
         </>
       }
+      {isEmployee &&
+        <Link to="/checkouts">Checkouts</Link>
+      }
+      {isEmployee &&
+        <Link to="/returns">Returns</Link>
+      }
       {loggedIn ? (
         <>
         <Link to="/account">My Account</Link>
