@@ -7,6 +7,7 @@ const AccountCommands = require('./Command/AccountCommands');
 const EventCommands = require('./Command/EventCommands');
 const EventRSVPCommands = require('./Command/EventRSVPCommands');
 const moment = require('moment');
+const CheckoutCommands = require('./Command/CheckoutCommands');
 
 const app = express();
 const port = 3001;
@@ -304,6 +305,208 @@ app.post('/calendar/RSVP/check', async(req, res) => {
   } catch (error) {
     console.log('error in server check rsvp', error);
     res.status(500).json({error: 'failed to check rsvp in server'});
+  }
+})
+
+app.post('/resources/checkout', async(req, res) => {
+  console.log('attempting checkout');
+  const {userid, resourceid} = req.body;
+  try {
+    const resourceCheckedOut = await CheckoutCommands.checkOut(userid, resourceid);
+    if (resourceCheckedOut) {
+      res.status(200).json({resourceCheckedOut});
+      console.log('successful checkout in server!')
+    } else {
+      res.status(409).json({error: 'failed to checkout. no availability'});
+      console.log('no available resources to checkout')
+    } 
+  } catch(error) {
+    console.log('error in server:', error);
+    res.status(500).json({error: 'Failed to checkout. Check server'});
+  }
+})
+
+app.post('/resources/return', async(req, res) => {
+  const {userid, resourceid} = req.body;
+  try {
+    const resourceReturned = await CheckoutCommands.returnResource(userid, resourceid);
+    if (resourceReturned) {
+      res.status(200).json({resourceCheckedOut});
+      console.log('successful return in server!')
+    } else {
+      res.status(409).json({error: 'failed to return. at total copies'});
+      console.log('invalid return')
+    } 
+  } catch(error) {
+    console.log('error in server:', error);
+    res.status(500).json({error: 'Failed to return. Check server'});
+  }
+})
+
+app.post('/account/checkouts', async (req, res) => {
+  const {userid} = req.body;
+  try {
+    const UserCheckouts = await CheckoutCommands.getCheckedOutbyUser(userid);
+    res.status(200).json(UserCheckouts);
+  } catch (error) {
+    console.log('issues with sending');
+    res.status(500).json({ error: 'Failed to fetch resources' });
+  }
+});
+
+app.get('/employee/checkouts', async(req, res) => {
+  try {
+    const AllCheckouts = await CheckoutCommands.getAllUnapprovedCheckouts();
+    res.status(200).json(AllCheckouts);
+  } catch (error) {
+    console.log('issues with sending');
+    res.status(500).json({ error: 'Failed to fetch checkouts' });
+  }
+})
+
+app.get('/employee/returns', async(req, res) => {
+  try {
+    const AllReturns = await CheckoutCommands.getAllUnapprovedReturns();
+    res.status(200).json(AllReturns);
+  } catch (error) {
+    console.log('issues with sending');
+    res.status(500).json({ error: 'Failed to fetch returns' });
+  }
+})
+
+app.post('/employee/checkouts/approval', async(req, res) => {
+  console.log('attempting checkout approval');
+  const {userid, resourceid, checkoutdate} = req.body;
+  try {
+    const checkoutApproved = await CheckoutCommands.approveCheckout(userid, resourceid, checkoutdate);
+    if (checkoutApproved) {
+      res.status(200).json({checkoutApproved});
+      console.log('successful return in server!')
+    } else {
+      res.status(409).json({error: 'failed to approve'});
+      console.log('invalid return')
+    } 
+  } catch(error) {
+    console.log('error in server:', error);
+    res.status(500).json({error: 'Failed to return. Check server'});
+  }
+})
+
+app.post('/employee/returns/approval', async(req, res) => {
+  const {userid, resourceid, checkoutdate} = req.body;
+  try {
+    const returnApproved = await CheckoutCommands.approveReturn(userid, resourceid, checkoutdate);
+    if (returnApproved) {
+      res.status(200).json({returnApproved});
+      console.log('successful return in server!')
+    } else {
+      res.status(409).json({error: 'failed to approve'});
+      console.log('invalid return')
+    } 
+  } catch(error) {
+    console.log('error in server:', error);
+    res.status(500).json({error: 'Failed to return. Check server'});
+  }
+})
+
+app.post('/resources/checkout', async(req, res) => {
+  console.log('attempting checkout');
+  const {userid, resourceid} = req.body;
+  try {
+    const resourceCheckedOut = await CheckoutCommands.checkOut(userid, resourceid);
+    if (resourceCheckedOut) {
+      res.status(200).json({resourceCheckedOut});
+      console.log('successful checkout in server!')
+    } else {
+      res.status(409).json({error: 'failed to checkout. no availability'});
+      console.log('no available resources to checkout')
+    } 
+  } catch(error) {
+    console.log('error in server:', error);
+    res.status(500).json({error: 'Failed to checkout. Check server'});
+  }
+})
+
+app.post('/resources/return', async(req, res) => {
+  const {userid, resourceid} = req.body;
+  try {
+    const resourceReturned = await CheckoutCommands.returnResource(userid, resourceid);
+    if (resourceReturned) {
+      res.status(200).json({resourceCheckedOut});
+      console.log('successful return in server!')
+    } else {
+      res.status(409).json({error: 'failed to return. at total copies'});
+      console.log('invalid return')
+    } 
+  } catch(error) {
+    console.log('error in server:', error);
+    res.status(500).json({error: 'Failed to return. Check server'});
+  }
+})
+
+app.post('/account/checkouts', async (req, res) => {
+  const {userid} = req.body;
+  try {
+    const UserCheckouts = await CheckoutCommands.getCheckedOutbyUser(userid);
+    res.status(200).json(UserCheckouts);
+  } catch (error) {
+    console.log('issues with sending');
+    res.status(500).json({ error: 'Failed to fetch resources' });
+  }
+});
+
+app.get('/employee/checkouts', async(req, res) => {
+  try {
+    const AllCheckouts = await CheckoutCommands.getAllUnapprovedCheckouts();
+    res.status(200).json(AllCheckouts);
+  } catch (error) {
+    console.log('issues with sending');
+    res.status(500).json({ error: 'Failed to fetch checkouts' });
+  }
+})
+
+app.get('/employee/returns', async(req, res) => {
+  try {
+    const AllReturns = await CheckoutCommands.getAllUnapprovedReturns();
+    res.status(200).json(AllReturns);
+  } catch (error) {
+    console.log('issues with sending');
+    res.status(500).json({ error: 'Failed to fetch returns' });
+  }
+})
+
+app.post('/employee/checkouts/approval', async(req, res) => {
+  console.log('attempting checkout approval');
+  const {userid, resourceid, checkoutdate} = req.body;
+  try {
+    const checkoutApproved = await CheckoutCommands.approveCheckout(userid, resourceid, checkoutdate);
+    if (checkoutApproved) {
+      res.status(200).json({checkoutApproved});
+      console.log('successful return in server!')
+    } else {
+      res.status(409).json({error: 'failed to approve'});
+      console.log('invalid return')
+    } 
+  } catch(error) {
+    console.log('error in server:', error);
+    res.status(500).json({error: 'Failed to return. Check server'});
+  }
+})
+
+app.post('/employee/returns/approval', async(req, res) => {
+  const {userid, resourceid, checkoutdate} = req.body;
+  try {
+    const returnApproved = await CheckoutCommands.approveReturn(userid, resourceid, checkoutdate);
+    if (returnApproved) {
+      res.status(200).json({returnApproved});
+      console.log('successful return in server!')
+    } else {
+      res.status(409).json({error: 'failed to approve'});
+      console.log('invalid return')
+    } 
+  } catch(error) {
+    console.log('error in server:', error);
+    res.status(500).json({error: 'Failed to return. Check server'});
   }
 })
 
