@@ -56,7 +56,7 @@ const EventsCalendar = () => {
   };  
 
   const eventStyleGetter = (event) => {
-    let backgroundColor = event.approved ? '#124E66' : '#dc3545'; // Green for approved, red for not approved
+    let backgroundColor = event.approved ? '#124E66' : '#800000'; // Green for approved, red for not approved
     let style = {
       backgroundColor,
       borderRadius: '5px',
