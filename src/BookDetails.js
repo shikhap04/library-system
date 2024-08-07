@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
@@ -6,12 +6,45 @@ const BookDetails = () => {
   const { id } = useParams();
   const userid = sessionStorage.getItem('id');
   const resourceid = id;
+  const resource_id = id;
+  const [resource, setResource] = useState({
+    id: '',
+    resource_name: '',
+    author: '',
+    location: 0,
+    resource_description: '',
+    genre: '',
+    total_copies: '',
+    copies_available: '',
+    resource_version: '',
+    resource_type: '',
+  })
+
+  useEffect(() => {
+    const getResource = async () => {
+      try {
+        const field = "resource_id";
+        const query = resource_id;
+        console.log('use effect checking ', field, query);
+        console.log(query, typeof(query));
+        const response = await axios.post('http://localhost:3001/resources/search', { field, query });
+        console.log(response.data);
+        setResource(response.data[0]);
+        console.log(resource);
+      }
+      catch (error) {
+        console.log('error in use effect', error);
+      }
+    };
+    getResource();
+  }, [resource_id]);
+
 
   // Dummy data for book details
   const book = {
-    bookid: id,
-    title: `Book ${id}`,
-    author: `Author ${id}`,
+    bookid: resource_id,
+    title: `Book ${resource_id}`,
+    author: `Author ${resource_id}`,
     description: `This is the description for book ${id}.`
   };
 
@@ -51,9 +84,9 @@ const BookDetails = () => {
   };
   return (
     <div>
-      <h1>{book.title}</h1>
-      <h2>by {book.author}</h2>
-      <p>{book.description}</p>
+      <h1>{resource.resource_name}</h1>
+      <h2>by {resource.author}</h2>
+      <p>{resource.description}</p>
       <form onSubmit={handleCheckout}>
         <button
         type="submit"

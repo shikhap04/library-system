@@ -7,6 +7,7 @@ const ReturnApprovalPage = () => {
     const userid = user;
     const resourceid = id;
     const checkoutdate = checkdate.slice(0,10);
+    const username = sessionStorage.getItem('username');
 
     // Handles the approval for the return
     const handleApproveReturn = async() => {
@@ -27,7 +28,7 @@ const ReturnApprovalPage = () => {
 
     return (
     <div>
-      <h1>Approving Return for {userid}</h1>
+      <h1>Approving Return for {username}</h1>
       <p>Approving: {resourceid}</p>
       <p>Checkout Date: {checkoutdate}</p>
       

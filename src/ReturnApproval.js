@@ -6,6 +6,7 @@ const ReturnApproval = () => {
   
   const [checkouts, setcheckouts] = useState([]);
   const [error, setError] = useState(null);
+  const username = sessionStorage.getItem('username');
   
   //console.log("its here!!");
   useEffect(() => {

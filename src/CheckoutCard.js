@@ -19,7 +19,7 @@ const CheckoutCard = ({checkout}) => {
             <p>Checkout Approved: {checkout.checkout_approved}</p>
             <p>Return Approved: {checkout.return_approved}</p>
             {isEmployee && <p>User ID: {checkout.user_id}</p>}
-            {(currUser == checkout.user_id) && (checkout.checkout_approved == true) && (checkout.resource_returned == false) && <Link to={`/book/${checkout.resource_id}`}>Return</Link>}
+            {(currUser == checkout.user_id) && (checkout.checkout_approved == true) && (checkout.resource_returned == false) && <Link to={`/resource/${checkout.resource_id}`}>Return</Link>}
             <p></p>
             {isEmployee && (checkout.checkout_approved == false) && <Link to={`/checkoutapproval/${checkout.user_id}/${checkout.resource_id}/${checkout.checkout_date}`}>Approve Checkout</Link>}
             <p></p>

@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 const CheckoutApprovalPage = () => {
     const { user, id, checkdate} = useParams();
     const userid = user;
+    const username = sessionStorage.getItem('username');
     const resourceid = id;
     const checkoutdate = checkdate.slice(0, 10)
 
@@ -27,7 +28,7 @@ const CheckoutApprovalPage = () => {
 
     return (
     <div>
-      <h1>Approving Checkout for {userid}</h1>
+      <h1>Approving Checkout for {username}</h1>
       <p>Approving: {resourceid}</p>
       <p>Checkout Date: {checkoutdate}</p>
       <form onSubmit={handleApproveCheckout}>
